@@ -1,0 +1,35 @@
+# PRIME
+
+> PRIME is a gamified adaptive training system PWA — an RPG-style strength and endurance coach that turns workouts into raids, XP, levels, and loot while modeling real training science (Foster session load, ACWR, CTL/ATL/TSB, strength standards, 39-nutrient micronutrition).
+
+Single-page installable app (Next.js App Router, offline-capable). No accounts, no tracking — all data lives locally in the user's own database.
+
+## Tabs
+
+- [Status](/): The command console — hunter level, XP, essence, streak, daily readiness briefing, Oracle AI coach tip.
+- [Goals]: Daily and goal-based quests with streaks, claims, and essence payouts.
+- [Training]: Session raid console — 6 training gates, strength-standard grades (Novice→Elite), superset engine, RIR capture, plate calculator, live BLE heart-rate zones.
+- [Body]: Body metrics history — weight, body fat, measurements, progress photos metadata, muscle freshness and recovery model.
+- [Fuel]: Nutrition logging — macros plus full micronutrient panel (39 nutrients: vitamins, minerals, amino acids), Cronometer-grade completeness scoring.
+- [Vitals]: Health monitoring — sleep, resting HR, HRV, blood pressure with ACC/AHA zones, SpO2, daily readiness score, morning check-in.
+- [Progress]: Records, PRs, progression charts, chronic load (Foster AU, ACWR, CTL/ATL/TSB), deload advisor, export/import center (Strong/Hevy CSV both ways), integrations map.
+- [Rewards]: Essence vault, perk forge (XP Surge, Streak Shield, Smart Swap), badges.
+
+## Core models
+
+- XP engine: per-exercise XP from volume, reps, and strength-standard grades; cardio minutes; mobility work.
+- Load: Foster session RPE × duration AU, rolling acute:chronic ratio, fitness-fatigue CTL/ATL/TSB, deload advisor with cut percentages.
+- Readiness: sleep debt, resting-HR deviation vs 7-day baseline, strain band caps — nothing is invented; absent data renders as "no signal".
+- Strength standards: bodyweight-adjusted grade tables per lift (Novice / Intermediate / Advanced / Elite).
+- Sensors: Web Bluetooth heart-rate straps (GATT 0x180D, 5-zone model), GPS route recorder with haversine distance and auto-pause, battery/network telemetry.
+
+## Interoperability
+
+- Import: Strong, Hevy, and PRIME CSV with dry-run preview → confirm commit, dedupe guard.
+- Export: full archive CSV, per-session Strong-convention CSV, Web Share API file dispatch.
+- PWA: installable (TWA-ready), app shortcuts, offline shell.
+
+## Notes
+
+- This file follows the llms.txt convention (https://llmstxt.org).
+- Health information shown is educational, not medical advice. One reading is not a diagnosis.

@@ -1,0 +1,337 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// The Awakened trainee profile — one per player (solo app)
+model Hunter {
+  id            String   @id @default(cuid())
+  name          String   @unique
+  archetype     String   @default("vanguard")
+  equippedTitle String?
+  level         Int      @default(1)
+  xp            Int      @default(0)
+  totalXp       Int      @default(0)
+  statPoints    Int      @default(0)
+  str           Int      @default(12)
+  vit           Int      @default(12)
+  endur         Int      @default(12)
+  agi           Int      @default(12)
+  flex          Int      @default(12)
+  streak        Int      @default(0)
+  bestStreak    Int      @default(0)
+  lastActiveDay String?
+  totalSessions Int      @default(0)
+  totalVolumeKg Float    @default(0)
+  totalMinutes  Int      @default(0)
+  totalCardio   Int      @default(0)
+  essence       Int      @default(0) // Aether shards — forge currency
+  ascension     Int      @default(0) // completed Ascension Protocol cycles (prestige)
+
+  // R33 — device identity: the cookie token that scopes this profile to ONE
+  // device (no accounts — see play-assets/play-listing.md privacy section).
+  // Set at awakening via Set-Cookie; getHunter() resolves by token ONLY.
+  // Nullable: pre-token rows (the dev-backfilled KAEL artifact) are reachable
+  // only after a backfill assigns them a token.
+  token          String?  @unique
+
+  // real-world body profile (Fuel tab / metrics) — null = library defaults apply
+  heightCm      Float?
+  weightKg      Float?
+  birthYear     Int?
+  sex           String? // male | female
+  activityLevel String? // sedentary | light | moderate | active | very
+  goal          String? // cut | maintain | bulk
+  macroSplit    String? // balanced | highprotein | lowcarb | carbload — preset overriding per-goal default split
+
+  // R38 — per-device timezone (IANA name, e.g. "Asia/Kolkata"): the day
+  // boundary for dailies, streaks, rift rotation and rest decrees rolls at
+  // THIS zone's midnight. Null = legacy server-local (UTC) semantics, kept
+  // byte-compatible for pre-R38 rows. Captured at awakening from the device's
+  // Intl resolved zone; validated server-side (isValidTimeZone).
+  timezone      String?
+  region        String?  // R52-2 — standings arena: declared state/region (null = undeclared)
+  country       String?  // R52-2 — standings arena: declared country (null = undeclared)
+
+  // R56 — standings visibility: opted-out hunters are excluded from every
+  // leaderboard tier (state/country/world), including their own row. A
+  // privacy switch (Strava-style), settable by the hunter via PATCH, and by
+  // the guarded admin curation route for dev-artifact profiles. Opt-out only
+  // affects the boards — all other surfaces (profile, records, chronicle)
+  // keep their data untouched.
+  leaderboardOptOut Boolean @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  sessions     WorkoutSession[]
+  quests       Quest[]
+  achievements Achievement[]
+  xpEvents     XpEvent[]
+  relics       Relic[]
+  records      PersonalBest[]
+  briefings    Briefing[]
+  restDays     RestDay[]
+  bossDefeats  BossDefeat[]
+  nutritionLogs NutritionLog[]
+  waterLogs    WaterLog[]
+  bodyMetrics  BodyMetric[]
+  programs     Program[]
+  metricGoals  MetricGoal[]
+}
+
+// Directives: daily and main quests
+model Quest {
+  id             String    @id @default(cuid())
+  hunterId       String
+  kind           String // 'daily' | 'main'
+  code           String
+  title          String
+  description    String
+  metric         String // sessions | pushups | squats | cardio | volume | level | streak | hydrate | sleep | mobility
+  target         Int       @default(1)
+  progress       Int       @default(0)
+  xpReward       Int       @default(0)
+  statReward     String? // JSON { stat: 'STR', amount: 1 }
+  pointReward    Int       @default(0)
+  claimed        Boolean   @default(false)
+  completedAt    DateTime?
+  day            String? // yyyy-mm-dd for dailies
+  failed         Boolean   @default(false)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  hunter Hunter @relation(fields: [hunterId], references: [id], onDelete: Cascade)
+
+  @@index([hunterId, day])
+  @@index([hunterId, code])
+}
+
+// A gate raid = one workout session
+model WorkoutSession {
+  id         String    @id @default(cuid())
+  hunterId   String
+  gateId     String
+  gateName   String
+  status     String    @default("active") // active | cleared | abandoned
+  startedAt  DateTime  @default(now())
+  endedAt    DateTime?
+  xpEarned   Int       @default(0)
+  durationMin Int      @default(0)
+  volumeKg   Float     @default(0)
+  prCount    Int      @default(0) // personal records set during this raid
+  programDay Int? // 1-based day index when this raid executes a Program plan day
+  createdAt  DateTime  @default(now())
+
+  hunter Hunter       @relation(fields: [hunterId], references: [id], onDelete: Cascade)
+  logs   ExerciseLog[]
+
+  @@index([hunterId, status])
+}
+
+// A single exercise entry inside a raid
+model ExerciseLog {
+  id          String   @id @default(cuid())
+  sessionId   String
+  name        String
+  type        String // strength | bodyweight | cardio | mobility
+  sets        Int      @default(1)
+  reps        Int      @default(1)
+  weightKg    Float    @default(0)
+  durationMin Int      @default(0)
+  xpValue     Int      @default(0)
+  rir         Int? // reps-in-reserve at set end (0-5) — null = not captured
+  rpe         Int? // rate of perceived exertion 1-10 (Borg CR10) — null = not captured
+  notes       String? // free-form per-exercise notes (R17-D · Strong-style set notes)
+  createdAt   DateTime @default(now())
+
+  session WorkoutSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+}
+
+// Unlocked titles
+model Achievement {
+  id         String   @id @default(cuid())
+  hunterId   String
+  code       String
+  unlockedAt DateTime @default(now())
+
+  hunter Hunter @relation(fields: [hunterId], references: [id], onDelete: Cascade)
+
+  @@unique([hunterId, code])
+}
+
+// XP ledger for charts/history
+model XpEvent {
+  id        String   @id @default(cuid())
+  hunterId  String
+  amount    Int
+  source    String // gate | quest | bonus
+  note      String?
+  day       String // yyyy-mm-dd
+  createdAt DateTime @default(now())
+
+  hunter Hunter @relation(fields: [hunterId], references: [id], onDelete: Cascade)
+
+  @@index([hunterId, day])
+}
+
+// Personal best per exercise (one row per unique exercise name)
+model PersonalBest {
+  id          String   @id @default(cuid())
+  hunterId    String
+  name        String // normalized lowercase key
+  displayName String
+  type        String // strength | bodyweight | cardio | mobility
+  bestValue   Float
+  unit        String // kg | reps | min
+  context     String? // JSON: { sets, reps, weightKg, durationMin }
+  achievedAt  DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  hunter Hunter @relation(fields: [hunterId], references: [id], onDelete: Cascade)
+
+  @@unique([hunterId, name])
+}
+
+// Forge relics owned by the hunter
+model Relic {
+  id         String   @id @default(cuid())
+  hunterId   String
+  code       String
+  charges    Int      @default(1) // >0 usable for charged relics; passives ignore
+  acquiredAt DateTime @default(now())
+
+  hunter Hunter @relation(fields: [hunterId], references: [id], onDelete: Cascade)
+
+  @@unique([hunterId, code])
+}
+
+// The Oracle's daily briefing — one per hunter per day
+model Briefing {
+  id        String   @id @default(cuid())
+  hunterId  String
+  day       String // yyyy-mm-dd
+  text      String
+  createdAt DateTime @default(now())
+
+  hunter Hunter @relation(fields: [hunterId], references: [id], onDelete: Cascade)
+
+  @@unique([hunterId, day])
+}
+
+// Sanctified Rest — one weekly streak shield per hunter (Mon-based ISO week)
+model RestDay {
+  id        String   @id @default(cuid())
+  hunterId  String
+  day       String // yyyy-mm-dd — the day being sanctified
+  createdAt DateTime @default(now())
+
+  hunter Hunter @relation(fields: [hunterId], references: [id], onDelete: Cascade)
+
+  @@unique([hunterId, day])
+  @@index([hunterId, day])
+}
+
+// Boss Raid kills — one per hunter per ISO week (Mon-based)
+model BossDefeat {
+  id          String   @id @default(cuid())
+  hunterId    String
+  bossCode    String // which boss was slain
+  weekStart   String // yyyy-mm-dd of the week's Monday
+  damage      Int // XP of the killing raid
+  defeatedAt  DateTime @default(now())
+
+  hunter Hunter @relation(fields: [hunterId], references: [id], onDelete: Cascade)
+
+  @@unique([hunterId, weekStart])
+  @@index([hunterId, bossCode])
+}
+
+// Fuel tab — one food entry per meal log (macros already multiplied by qty)
+model NutritionLog {
+  id        String   @id @default(cuid())
+  hunterId  String
+  day       String // yyyy-mm-dd
+  mealType  String // breakfast | lunch | dinner | snack
+  name      String
+  qty       Float    @default(1)
+  unit      String   @default("serving") // serving label for display
+  calories  Float
+  protein   Float
+  carbs     Float
+  fat       Float
+  fiber     Float    @default(0) // g per logged serving (R17-A · Cronometer/MyFitnessPal micro layer)
+  sodium    Float    @default(0) // mg per logged serving
+  sugar     Float    @default(0) // g per logged serving
+  createdAt DateTime @default(now())
+
+  hunter Hunter @relation(fields: [hunterId], references: [id], onDelete: Cascade)
+
+  @@index([hunterId, day])
+}
+
+// Fuel tab — incremental water log entries (ml, may be negative for undo)
+model WaterLog {
+  id        String   @id @default(cuid())
+  hunterId  String
+  day       String // yyyy-mm-dd
+  ml        Int
+  createdAt DateTime @default(now())
+
+  hunter Hunter @relation(fields: [hunterId], references: [id], onDelete: Cascade)
+
+  @@index([hunterId, day])
+}
+
+// Program Forge — a generated training protocol (one active per hunter, managed in code)
+model Program {
+  id         String    @id @default(cuid())
+  hunterId   String
+  name       String
+  goal       String // strength | hypertrophy | conditioning | mobility
+  equipment  String // none | home | full-gym
+  days       Int // training days per week, 2-6
+  experience String // novice | intermediate | advanced
+  plan       String // JSON: { days: [{ day, focus, blocks: [{ name, type, sets, reps?, weightKg?, restSec, rpe?, cue?, refs? }] }] }
+  active     Boolean   @default(true)
+  createdAt  DateTime  @default(now())
+  retiredAt  DateTime?
+
+  hunter Hunter @relation(fields: [hunterId], references: [id], onDelete: Cascade)
+
+  @@index([hunterId, active])
+}
+
+// Body-metric targets — one active goal per metric per hunter
+model MetricGoal {
+  id          String   @id @default(cuid())
+  hunterId    String
+  metric      String // weight | chest | waist | hips | arm | thigh | calf
+  targetValue Float
+  direction   String // down | up
+  createdAt   DateTime @default(now())
+
+  hunter Hunter @relation(fields: [hunterId], references: [id], onDelete: Cascade)
+
+  @@unique([hunterId, metric])
+}
+
+// Body metrics — one value per type per day (latest wins via upsert)
+model BodyMetric {
+  id        String   @id @default(cuid())
+  hunterId  String
+  day       String // yyyy-mm-dd
+  type      String // weight | chest | waist | hips | arm | thigh | calf | sleep | restingHr
+  value     Float
+  unit      String // kg | cm | h | bpm
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  hunter Hunter @relation(fields: [hunterId], references: [id], onDelete: Cascade)
+
+  @@unique([hunterId, day, type])
+  @@index([hunterId, type, day])
+}

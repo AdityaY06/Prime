@@ -1,0 +1,29 @@
+# Dependencies and build output
+node_modules/
+.next/
+dist/
+build/
+out/
+
+# Screenshots and QA media (culprit)
+screenshots/
+qa-shots/
+upload/
+download/
+play-assets/
+t15-*.png
+t17a-*.png
+t18c-*.png
+
+# System & temp files
+.DS_Store
+*.pid
+	EOF
+# Secrets & Local DB
+.env
+.env*.local
+/db/*.db
+# QA Screenshots & Artifacts
+/qa/
+/.qa/
+/*.png

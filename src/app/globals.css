@@ -1,0 +1,3268 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+/* ─── R44 · IMMERSIVE STUDIO palette ──────────────────────────────────────
+   The creative brief restores the violet identity on top of R43's Mirage
+   Studio structure: "deep aubergine and violet for the primary identity,
+   electric violet for active progression and important interactions".
+   The scale is re-declared HERE so every one of the ~1,600 violet-*
+   utility usages across 70 components instantly re-renders with the
+   immersive identity — zero component edits required:
+     violet scale → true violet: aubergine-black dark end (substrates,
+   borders, tints) → electric bright end (active states, progression)
+     fuchsia scale → amber scale (gold — achievements ONLY, kept)
+   Class NAMES stay (text-violet-400 etc.) — contract preserved, feel
+   reborn. Base stays obsidian; teal = data/ops; rose = danger. */
+
+@theme {
+  --color-violet-50: #f5f3ff;
+  --color-violet-100: #ede9fe;
+  --color-violet-200: #ddd6fe;
+  --color-violet-300: #c4b5fd;
+  --color-violet-400: #a78bfa;
+  --color-violet-500: #8b5cf6;
+  --color-violet-600: #7c3aed;
+  --color-violet-700: #5b21b6;
+  --color-violet-800: #3b1375;
+  --color-violet-900: #270b52;
+  --color-violet-950: #170630;
+  --color-fuchsia-50: #fffbeb;
+  --color-fuchsia-100: #fef3c7;
+  --color-fuchsia-200: #fde68a;
+  --color-fuchsia-300: #fcd34d;
+  --color-fuchsia-400: #fbbf24;
+  --color-fuchsia-500: #f59e0b;
+  --color-fuchsia-600: #d97706;
+  --color-fuchsia-700: #b45309;
+  --color-fuchsia-800: #92400e;
+  --color-fuchsia-900: #78350f;
+  --color-fuchsia-950: #451a03;
+  --font-display: var(--font-geist-sans), sans-serif;
+}
+
+
+:root {
+  --radius: 1rem;
+  /* R44 · Immersive studio: obsidian canvas (a breath of aubergine),
+     ivory foreground, white-glass surfaces, ELECTRIC VIOLET primary —
+     the active-progression identity accent. Gold stays reserved for
+     achievements; teal carries data/ops. */
+  --background: oklch(0.135 0.008 285);
+  --foreground: oklch(0.955 0.004 270);
+  --card: oklch(0.185 0.005 270);
+  --card-foreground: oklch(0.955 0.004 270);
+  --popover: oklch(0.165 0.005 270);
+  --popover-foreground: oklch(0.955 0.004 270);
+  --primary: oklch(0.62 0.19 285);
+  --primary-foreground: oklch(0.985 0.005 285);
+  --secondary: oklch(0.235 0.005 270);
+  --secondary-foreground: oklch(0.955 0.004 270);
+  --muted: oklch(0.225 0.005 270);
+  --muted-foreground: oklch(0.67 0.006 270);
+  --accent: oklch(0.26 0.006 270);
+  --accent-foreground: oklch(0.955 0.004 270);
+  --destructive: oklch(0.64 0.19 22);
+  --border: oklch(0.955 0.004 270 / 10%);
+  --input: oklch(0.955 0.004 270 / 14%);
+  --ring: oklch(0.7 0.16 285 / 45%);
+  --chart-1: oklch(0.74 0.14 285);
+  --chart-2: oklch(0.8 0.14 85);
+  --chart-3: oklch(0.78 0.11 175);
+  --chart-4: oklch(0.62 0.006 270);
+  --chart-5: oklch(0.7 0.16 15);
+  --sidebar: oklch(0.185 0.005 270);
+  --sidebar-foreground: oklch(0.955 0.004 270);
+  --sidebar-primary: oklch(0.945 0.004 270);
+  --sidebar-primary-foreground: oklch(0.145 0.005 270);
+  --sidebar-accent: oklch(0.26 0.006 270);
+  --sidebar-accent-foreground: oklch(0.955 0.004 270);
+  --sidebar-border: oklch(0.955 0.004 270 / 10%);
+  --sidebar-ring: oklch(0.945 0.004 270 / 42%);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground selection:bg-violet-500/40 selection:text-violet-50;
+    background-color: #060607;
+    /* R44 immersive air: an electric-violet aura high-right (the identity
+       light), a faint white edge-light low-left, an aubergine whisper at
+       center — fixed, behind all motion. Gold is reserved for achievements
+       and is never ambient. */
+    background-image:
+      radial-gradient(1100px 700px at 82% -12%, rgba(139, 92, 246, 0.06), transparent 60%),
+      radial-gradient(900px 620px at -15% 108%, rgba(240, 240, 240, 0.028), transparent 62%),
+      radial-gradient(760px 520px at 50% 46%, rgba(139, 92, 246, 0.02), transparent 66%);
+    background-attachment: fixed;
+  }
+  input::placeholder,
+  textarea::placeholder {
+    @apply text-zinc-600;
+  }
+}
+
+/* ─── Studio panel chrome (R43: neutral frosted glass, Mirage register) ───── */
+
+.sys-panel {
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 1.15rem;
+  background:
+    linear-gradient(168deg, rgba(255, 255, 255, 0.052), rgba(255, 255, 255, 0.022));
+  /* R42 fix: the -webkit- twin made LightningCSS strip BOTH backdrop-filter
+     declarations — every R41 panel silently rendered without blur. Standard
+     property only (all supported browsers implement it unprefixed). */
+  backdrop-filter: blur(16px);
+  box-shadow:
+    0 10px 34px rgba(0, 0, 0, 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.055);
+}
+
+/* Corner brackets → four soft studio lights, breathing in gentle canon.
+   Same elements/components, restrained behavior. */
+.sys-corner {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border: none;
+  border-radius: 9999px;
+  pointer-events: none;
+  background: rgba(228, 228, 231, 0.5);
+  box-shadow: 0 0 7px rgba(240, 240, 240, 0.4);
+  animation: dew-breathe 4.6s ease-in-out infinite;
+}
+.sys-corner-tl { top: 11px; left: 11px; }
+.sys-corner-tr { top: 11px; right: 11px; animation-delay: 1.15s; }
+.sys-corner-bl { bottom: 11px; left: 11px; animation-delay: 2.3s; }
+.sys-corner-br { bottom: 11px; right: 11px; animation-delay: 3.45s; }
+@keyframes dew-breathe {
+  0%, 100% { opacity: 0.35; transform: scale(0.85); }
+  50% { opacity: 0.9; transform: scale(1.15); }
+}
+
+.sys-label {
+  font-family: var(--font-geist-sans), sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+/* ─── Soft light effects (R43: studio light, not neon) ───────────────────── */
+
+.text-glow-violet {
+  text-shadow:
+    0 0 16px rgba(240, 240, 240, 0.32),
+    0 0 44px rgba(255, 255, 255, 0.14);
+}
+.text-glow-amber {
+  text-shadow:
+    0 0 16px rgba(251, 191, 36, 0.45),
+    0 0 44px rgba(245, 158, 11, 0.2);
+}
+.text-glow-rose {
+  text-shadow:
+    0 0 16px rgba(251, 113, 133, 0.45),
+    0 0 44px rgba(244, 63, 94, 0.2);
+}
+
+.xp-shine {
+  position: relative;
+  overflow: hidden;
+}
+.xp-shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, 0.35) 50%, transparent 65%);
+  transform: translateX(-120%);
+  animation: xp-shine-move 2.8s ease-in-out infinite;
+}
+@keyframes xp-shine-move {
+  0% { transform: translateX(-120%); }
+  55%, 100% { transform: translateX(120%); }
+}
+
+@keyframes sys-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
+.sys-pulse { animation: sys-pulse 1.8s ease-in-out infinite; }
+
+@keyframes sys-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+.sys-blink { animation: sys-blink 1s step-end infinite; }
+
+@keyframes gate-drift {
+  0% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  50% { transform: translate3d(0, -8px, 0) rotate(1.5deg); }
+  100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+}
+.gate-drift { animation: gate-drift 5s ease-in-out infinite; }
+
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.rise-in { animation: rise-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+@keyframes glow-breathe {
+  0%, 100% { box-shadow: 0 0 16px rgba(161, 161, 170, 0.18), inset 0 0 14px rgba(161, 161, 170, 0.06); }
+  50% { box-shadow: 0 0 24px rgba(161, 161, 170, 0.28), inset 0 0 18px rgba(161, 161, 170, 0.09); }
+}
+.glow-breathe { animation: glow-breathe 3.2s ease-in-out infinite; }
+
+/* ─── Sync skeleton shimmer ─────────────────────────────────────────────────── */
+
+@keyframes skel-sweep {
+  0% { background-position: 100% 0; }
+  100% { background-position: -100% 0; }
+}
+.skel-bar {
+  border-radius: 2px;
+  background: linear-gradient(
+    100deg,
+    rgba(212, 212, 216, 0.06) 35%,
+    rgba(212, 212, 216, 0.17) 50%,
+    rgba(212, 212, 216, 0.06) 65%
+  );
+  background-size: 200% 100%;
+  animation: skel-sweep 1.7s ease-in-out infinite;
+}
+
+/* ─── Empty-state glyph ─────────────────────────────────────────────────────── */
+
+@keyframes glyph-rotate {
+  to { transform: rotate(360deg); }
+}
+.glyph-spin {
+  transform-box: view-box;
+  transform-origin: center;
+  animation: glyph-rotate 28s linear infinite;
+}
+
+/* ─── Gate card scan line (visible on group-hover) ─────────────────────────── */
+
+@keyframes gate-scan-sweep {
+  0% { top: 0; opacity: 0; }
+  12% { opacity: 1; }
+  88% { opacity: 1; }
+  100% { top: calc(100% - 2px); opacity: 0; }
+}
+.gate-scan::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(228, 228, 231, 0.75), transparent);
+  box-shadow: 0 0 12px rgba(212, 212, 216, 0.5);
+  animation: gate-scan-sweep 1.9s ease-in-out infinite;
+}
+
+/* ─── Gate network divider (flowing dash) ──────────────────────────────────── */
+
+@keyframes net-flow {
+  from { stroke-dashoffset: 100; }
+  to { stroke-dashoffset: 0; }
+}
+.net-flow { animation: net-flow 3.6s linear infinite; }
+
+/* ─── Notifications ─────────────────────────────────────────────────────────── */
+
+.sys-notice {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(212, 212, 216, 0.18);
+  background: linear-gradient(160deg, rgba(20, 20, 22, 0.6), rgba(15, 15, 17, 0.76));
+  backdrop-filter: blur(18px);
+}
+
+@keyframes notice-drain {
+  from { transform: scaleX(1); }
+  to { transform: scaleX(0); }
+}
+.notice-progress {
+  transform-origin: left;
+  animation: notice-drain 4.5s linear forwards;
+}
+
+/* R41 — scanlines retired: the grove grain + fireflies carry the texture now */
+.sys-scanlines {
+  display: none;
+}
+
+/* ─── Scrollbars ───────────────────────────────────────────────────────────── */
+
+.scroll-sys {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(212, 212, 216, 0.35) rgba(255, 255, 255, 0.04);
+}
+.scroll-sys::-webkit-scrollbar { width: 8px; height: 8px; }
+.scroll-sys::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.03); border-radius: 8px; }
+.scroll-sys::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(212, 212, 216, 0.5), rgba(161, 161, 170, 0.35));
+  border-radius: 8px;
+}
+.scroll-sys::-webkit-scrollbar-thumb:hover { background: rgba(212, 212, 216, 0.7); }
+
+/* ─── Diamond rank badge ───────────────────────────────────────────────────── */
+
+.rank-diamond {
+  border: 1.5px solid currentColor;
+  border-radius: 32%;
+  background: linear-gradient(160deg, rgba(14, 31, 24, 0.92), rgba(15, 15, 17, 0.95));
+  box-shadow: inset 0 1px 0 rgba(244, 244, 245, 0.06);
+}
+.rank-diamond > span {
+  transform: none;
+}
+
+/* ─── Teal text glow (aether essence) ──────────────────────────────────────── */
+
+.text-glow-teal {
+  text-shadow:
+    0 0 16px rgba(94, 234, 212, 0.45),
+    0 0 44px rgba(20, 184, 166, 0.2);
+}
+
+/* ─── THE FORGE · ember field & relic polish ───────────────────────────────── */
+
+/* Rising forge embers behind the essence header (per-particle config via
+   --ember-delay / --ember-dur / --ember-drift inline custom properties) */
+@keyframes forge-ember-rise {
+  0% { transform: translate3d(0, 0, 0) scale(0.6); opacity: 0; }
+  15% { opacity: 0.9; }
+  60% { opacity: 0.55; }
+  100% { transform: translate3d(var(--ember-drift, 12px), -110px, 0) scale(1); opacity: 0; }
+}
+.forge-ember {
+  position: absolute;
+  bottom: -6px;
+  opacity: 0; /* stays invisible when reduced motion disables the animation */
+  border-radius: 9999px;
+  background: rgba(251, 191, 36, 0.85);
+  box-shadow: 0 0 6px rgba(245, 158, 11, 0.8), 0 0 14px rgba(245, 158, 11, 0.3);
+  animation: forge-ember-rise var(--ember-dur, 7s) ease-in var(--ember-delay, 0s) infinite;
+}
+
+/* Slow drifting heat haze blobs behind the forge header */
+@keyframes forge-glow-drift {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.5; }
+  50% { transform: translate3d(24px, -12px, 0) scale(1.25); opacity: 0.8; }
+}
+.forge-glow-drift { animation: forge-glow-drift 9s ease-in-out infinite; }
+
+/* Owned relics — soft breathing inner glow overlay */
+@keyframes relic-breathe {
+  0%, 100% { opacity: 0.32; }
+  50% { opacity: 0.78; }
+}
+.relic-breathe {
+  opacity: 0.4;
+  animation: relic-breathe 3.8s ease-in-out infinite;
+}
+
+/* Charge pip pop — replays when the pip row remounts on a charge change */
+@keyframes forge-pip-pop {
+  0% { transform: scaleY(0.3); }
+  60% { transform: scaleY(1.35); }
+  100% { transform: scaleY(1); }
+}
+.forge-pip-pop { animation: forge-pip-pop 0.45s ease-out; }
+
+/* "REQUIRES N MORE AETHER" — subtle amber pulse to draw the eye */
+@keyframes forge-need {
+  0%, 100% { color: rgba(161, 161, 170, 1); }
+  50% { color: rgba(252, 211, 77, 0.95); }
+}
+.forge-need {
+  color: rgba(161, 161, 170, 1);
+  animation: forge-need 2.8s ease-in-out infinite;
+}
+
+/* Forge footer divider — flowing ember dash (anvil-flame motif) */
+@keyframes forge-ember-flow {
+  from { stroke-dashoffset: 100; }
+  to { stroke-dashoffset: 0; }
+}
+.forge-ember-flow { animation: forge-ember-flow 3.2s linear infinite; }
+
+/* Tiny sparks flickering up off the divider line */
+@keyframes forge-spark {
+  0%, 100% { opacity: 0; transform: translateY(3px) scale(0.7); }
+  50% { opacity: 1; transform: translateY(-7px) scale(1); }
+}
+.forge-spark {
+  opacity: 0;
+  animation: forge-spark 2.4s ease-in-out infinite;
+}
+
+/* ─── THE ORACLE · console life signs ───────────────────────────────────────── */
+
+/* FAB outer orbit ring — slow rotation, paused on hover */
+@keyframes oracle-ring {
+  to { transform: rotate(360deg); }
+}
+.oracle-ring { animation: oracle-ring 14s linear infinite; }
+
+/* Header eye — glancing pupil */
+@keyframes oracle-pupil {
+  0%, 100% { transform: translateX(-2.5px); }
+  50% { transform: translateX(2.5px); }
+}
+.oracle-pupil { animation: oracle-pupil 3.4s ease-in-out infinite; }
+
+/* DIVINING typing dots */
+@keyframes oracle-dot {
+  0%, 60%, 100% { opacity: 0.25; transform: translateY(0); }
+  30% { opacity: 1; transform: translateY(-2px); }
+}
+.oracle-dot { animation: oracle-dot 1.4s ease-in-out infinite; }
+
+/* ─── Personal records board ────────────────────────────────────────────────── */
+
+/* Thin shimmer "record bar" on the top record */
+@keyframes pr-shimmer {
+  0% { background-position: -150% 0; }
+  100% { background-position: 250% 0; }
+}
+.pr-shimmer {
+  background: linear-gradient(90deg, transparent 25%, rgba(252, 211, 77, 0.85) 50%, transparent 75%);
+  background-size: 200% 100%;
+  animation: pr-shimmer 2.6s linear infinite;
+}
+
+/* Trophy glow breathing */
+@keyframes pr-trophy {
+  0%, 100% { filter: drop-shadow(0 0 4px rgba(245, 158, 11, 0.45)); }
+  50% { filter: drop-shadow(0 0 9px rgba(245, 158, 11, 0.9)); }
+}
+.pr-trophy { animation: pr-trophy 2.4s ease-in-out infinite; }
+
+/* Champion crown bob */
+@keyframes pr-crown {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+.pr-crown { animation: pr-crown 3s ease-in-out infinite; }
+
+/* ─── Reduced motion — still all new decorative animations ──────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .forge-ember,
+  .forge-glow-drift,
+  .relic-breathe,
+  .forge-pip-pop,
+  .forge-need,
+  .forge-ember-flow,
+  .forge-spark,
+  .oracle-ring,
+  .oracle-dot,
+  .oracle-pupil,
+  .pr-shimmer,
+  .pr-trophy,
+  .pr-crown {
+    animation: none !important;
+  }
+}
+
+/* ─── Rift of the Day ───────────────────────────────────────────────────────── */
+
+/* Slow ambient pulse on the rift banner border */
+@keyframes rift-breathe {
+  0%, 100% { border-color: rgba(251, 191, 36, 0.35); box-shadow: 0 0 18px rgba(245, 158, 11, 0.08); }
+  50% { border-color: rgba(251, 191, 36, 0.7); box-shadow: 0 0 34px rgba(245, 158, 11, 0.28); }
+}
+.rift-banner { animation: rift-breathe 3.2s ease-in-out infinite; }
+
+/* Diagonal shine sweeping across the banner */
+@keyframes rift-shine-sweep {
+  0% { transform: translateX(-160%) skewX(-18deg); opacity: 0; }
+  12% { opacity: 1; }
+  38% { transform: translateX(340%) skewX(-18deg); opacity: 0; }
+  100% { transform: translateX(340%) skewX(-18deg); opacity: 0; }
+}
+.rift-shine {
+  left: 0;
+  background: linear-gradient(90deg, transparent, rgba(253, 230, 138, 0.14), transparent);
+  animation: rift-shine-sweep 5.2s ease-in-out infinite;
+}
+
+/* ─── System Voice (TTS announcer) ──────────────────────────────────────────── */
+
+/* Equalizer bars shown while the System speaks */
+@keyframes voice-eq {
+  0%, 100% { transform: scaleY(0.35); }
+  35% { transform: scaleY(1); }
+  70% { transform: scaleY(0.55); }
+}
+.voice-eq span {
+  display: block;
+  width: 2px;
+  height: 10px;
+  margin: 0 1px;
+  border-radius: 1px;
+  background: currentColor;
+  transform-origin: bottom;
+  animation: voice-eq 0.9s ease-in-out infinite;
+}
+.voice-eq span:nth-child(2) { animation-delay: 0.18s; }
+.voice-eq span:nth-child(3) { animation-delay: 0.36s; }
+.voice-eq span:nth-child(4) { animation-delay: 0.54s; }
+
+/* ─── Reduced motion — still the newest decorations ─────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .rift-banner,
+  .rift-shine,
+  .rift-ember,
+  .rift-sigil,
+  .rift-glyph,
+  .rift-chip::after,
+  .voice-eq span,
+  .voice-live {
+    animation: none !important;
+  }
+  .rift-ember { opacity: 0 !important; }
+}
+
+/* ─── Task 15 · Rift of the Day deep polish (appended) ──────────────────────── */
+
+/* Embers rising off the rift banner + featured gate card (per-particle vars) */
+@keyframes rift-ember-rise {
+  0% { transform: translate3d(0, 0, 0) scale(0.5); opacity: 0; }
+  12% { opacity: 0.9; }
+  70% { opacity: 0.5; }
+  100% { transform: translate3d(var(--rift-drift, 10px), -96px, 0) scale(1); opacity: 0; }
+}
+.rift-ember {
+  position: absolute;
+  bottom: -4px;
+  opacity: 0; /* invisible when reduced motion stills the animation */
+  border-radius: 9999px;
+  background: rgba(253, 230, 138, 0.9);
+  box-shadow: 0 0 6px rgba(245, 158, 11, 0.9), 0 0 12px rgba(245, 158, 11, 0.35);
+  animation: rift-ember-rise var(--rift-dur, 6s) ease-in var(--rift-delay, 0s) infinite;
+}
+
+/* Concentric rotated-square sigil watermark — slow amber breathing */
+@keyframes rift-sigil-breathe {
+  0%, 100% { opacity: 0.35; transform: rotate(45deg) scale(1); }
+  50% { opacity: 0.75; transform: rotate(45deg) scale(1.05); }
+}
+.rift-sigil {
+  transform: rotate(45deg);
+  animation: rift-sigil-breathe 5s ease-in-out infinite;
+}
+
+/* Pulsing diamond divider glyph (banner countdown separator) */
+@keyframes rift-glyph-pulse {
+  0%, 100% { opacity: 0.45; text-shadow: none; }
+  50% { opacity: 1; text-shadow: 0 0 8px rgba(252, 211, 77, 0.8); }
+}
+.rift-glyph { animation: rift-glyph-pulse 2.2s ease-in-out infinite; }
+
+/* Amber sheen sweep for small rift chips (RIFT SURGE / reward chip) */
+@keyframes rift-chip-sheen {
+  0% { transform: translateX(-130%) skewX(-16deg); }
+  55%, 100% { transform: translateX(260%) skewX(-16deg); }
+}
+.rift-chip { position: relative; overflow: hidden; }
+.rift-chip::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 45%;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(253, 230, 138, 0.22), transparent);
+  animation: rift-chip-sheen 2.8s ease-in-out infinite;
+}
+
+/* ─── Task 15 · System Voice — speaking state + livelier equalizer (appended) ── */
+
+/* Toggle button glow while the System speaks */
+@keyframes voice-glow {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(161, 161, 170, 0.25), 0 0 22px rgba(161, 161, 170, 0.1);
+    border-color: rgba(212, 212, 216, 0.55);
+  }
+  50% {
+    box-shadow: 0 0 18px rgba(161, 161, 170, 0.5), 0 0 34px rgba(161, 161, 170, 0.25);
+    border-color: rgba(228, 228, 231, 0.85);
+  }
+}
+.voice-live { animation: voice-glow 1.5s ease-in-out infinite; }
+
+/* Per-bar amplitude mix via custom properties — bars no longer move in unison */
+@keyframes voice-eq-live {
+  0%, 100% { transform: scaleY(var(--eq-lo, 0.3)); }
+  35% { transform: scaleY(var(--eq-hi, 1)); }
+  70% { transform: scaleY(var(--eq-mid, 0.55)); }
+}
+.voice-eq span {
+  height: 12px;
+  animation: voice-eq-live var(--eq-dur, 0.9s) ease-in-out infinite;
+}
+.voice-eq span:nth-child(1) { animation-delay: 0s;    --eq-lo: 0.16; --eq-hi: 0.85; --eq-mid: 0.38; --eq-dur: 0.74s; }
+.voice-eq span:nth-child(2) { animation-delay: 0.12s; --eq-lo: 0.45; --eq-hi: 1;    --eq-mid: 0.3;  --eq-dur: 0.92s; }
+.voice-eq span:nth-child(3) { animation-delay: 0.28s; --eq-lo: 0.3;  --eq-hi: 0.75; --eq-mid: 0.62; --eq-dur: 0.66s; }
+.voice-eq span:nth-child(4) { animation-delay: 0.4s;  --eq-lo: 0.2;  --eq-hi: 0.6;  --eq-mid: 0.45; --eq-dur: 1.05s; }
+
+/* ─── Task 15 · Share card preview chrome (appended) ────────────────────────── */
+
+/* Blueprint grid that fades in over the canvas preview on hover */
+.card-grid {
+  background-image:
+    linear-gradient(rgba(212, 212, 216, 0.13) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212, 212, 216, 0.13) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* ─── Task 17 · Daily Briefing — the Oracle's morning transmission (appended) ─ */
+
+/* Iris glow behind the briefing eye — slow violet breathe */
+@keyframes briefing-iris {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.85; transform: scale(1.14); }
+}
+.briefing-iris { animation: briefing-iris 3.6s ease-in-out infinite; }
+
+/* Watermark eye shimmering behind the skeleton while the Oracle divines */
+@keyframes briefing-watermark {
+  0%, 100% { opacity: 0.55; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+.briefing-watermark { animation: briefing-watermark 2.8s ease-in-out infinite; }
+
+/* ─── Task 17 · Data Vault — sealed archive chambers (appended) ─────────────── */
+
+/* Scan-line sweep across the VAULT CONTENTS panel while a file is parsed */
+@keyframes vault-scan-sweep {
+  0% { top: 0; opacity: 0; }
+  12% { opacity: 1; }
+  88% { opacity: 1; }
+  100% { top: calc(100% - 2px); opacity: 0; }
+}
+.vault-scan::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(228, 228, 231, 0.75), transparent);
+  box-shadow: 0 0 12px rgba(212, 212, 216, 0.5);
+  animation: vault-scan-sweep 1.6s ease-in-out infinite;
+}
+
+/* Armed confirm — rose heartbeat while OVERWRITE & RESTORE waits */
+@keyframes vault-arm-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.3), 0 0 14px rgba(244, 63, 94, 0.22); }
+  50% { box-shadow: 0 0 0 4px rgba(244, 63, 94, 0.1), 0 0 24px rgba(244, 63, 94, 0.45); }
+}
+.vault-arm { animation: vault-arm-pulse 1.6s ease-in-out infinite; }
+
+/* Success seal — circle + checkmark stroke draw-in (pathLength=100 in markup) */
+@keyframes vault-check-draw {
+  from { stroke-dashoffset: 100; }
+  to { stroke-dashoffset: 0; }
+}
+.vault-check-circle,
+.vault-check-mark {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 0;
+}
+.vault-check-circle { animation: vault-check-draw 0.55s ease-out backwards; }
+.vault-check-mark { animation: vault-check-draw 0.4s ease-out 0.45s backwards; }
+
+/* ─── Reduced motion — Task 17 decorations ──────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .briefing-iris,
+  .briefing-watermark,
+  .vault-scan::before,
+  .vault-arm,
+  .vault-check-circle,
+  .vault-check-mark {
+    animation: none !important;
+  }
+  /* draw-in strokes must rest fully drawn, not parked at their hidden start */
+  .vault-check-circle,
+  .vault-check-mark { stroke-dashoffset: 0 !important; }
+}
+
+/* ─── Task 17 fix · keep sys-panel modals viewport-fixed (appended) ───────────
+   .sys-panel is unlayered author CSS, so its position:relative beats the
+   layered Tailwind `fixed` utility on Radix DialogContent — dropping the
+   vault / share-card / exercise dialogs into the page flow at the bottom of
+   the document instead of centering them in the viewport. Scope a hard fix
+   to dialog contents that carry the panel chrome. */
+[data-slot="dialog-content"].sys-panel {
+  position: fixed !important;
+}
+
+/* ─── Task 18 · Sanctified Rest + Chronicle ─────────────────────────────────── */
+
+/* Rest moon — a slow amber glow breathing on the available decree glyph */
+@keyframes rest-moon-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 3px rgba(245, 158, 11, 0.45));
+    opacity: 0.85;
+  }
+  50% {
+    filter: drop-shadow(0 0 9px rgba(245, 158, 11, 0.85));
+    opacity: 1;
+  }
+}
+.rest-moon { animation: rest-moon-glow 2.8s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .rest-moon { animation: none !important; }
+}
+
+/* ─── Task 19 · Chronicle panel — cycle telemetry (appended) ────────────────── */
+
+/* Delta tile — direction-tinted left edge glow (--chronicle-edge set inline) */
+.chronicle-edge {
+  position: absolute;
+  left: 0;
+  top: 9%;
+  bottom: 9%;
+  width: 2px;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    var(--chronicle-edge, rgba(212, 212, 216, 0.6)) 50%,
+    transparent
+  );
+  opacity: 0.5;
+  transition: opacity 250ms ease;
+}
+.chronicle-tile:hover .chronicle-edge { opacity: 1; }
+
+/* Chart backdrop — faint blueprint grid, fading toward the top */
+.chronicle-grid {
+  background-image:
+    linear-gradient(rgba(212, 212, 216, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212, 212, 216, 0.055) 1px, transparent 1px);
+  background-size: 14px 14px;
+  -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.15));
+  mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.15));
+}
+
+/* Verdict status LED — tone-colored square with a slow glow pulse */
+@keyframes chronicle-led-pulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+.chronicle-led {
+  display: inline-block;
+  flex-shrink: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 1px;
+  background: currentColor;
+  box-shadow: 0 0 6px currentColor;
+  animation: chronicle-led-pulse 2.2s ease-in-out infinite;
+}
+
+/* ─── Task 19 · Sanctified Rest — night aura & decree states (appended) ─────── */
+
+/* Dashed night orbit around the decree glyph (reuses the oracle-ring rotation) */
+.rest-orbit { animation: oracle-ring 18s linear infinite; }
+
+/* Star motes twinkling in the glyph's night aura */
+@keyframes rest-star-twinkle {
+  0%, 100% { opacity: 0.25; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+.rest-star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  border-radius: 9999px;
+  background: rgba(253, 230, 138, 0.9);
+  box-shadow: 0 0 4px rgba(245, 158, 11, 0.8);
+  animation: rest-star-twinkle 2.6s ease-in-out infinite;
+}
+
+/* Claim button — amber heartbeat while the decree is being sealed */
+@keyframes rest-seal-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(245, 158, 11, 0), 0 0 10px rgba(245, 158, 11, 0.16);
+  }
+  50% {
+    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.07), 0 0 20px rgba(245, 158, 11, 0.4);
+  }
+}
+.rest-sealing { animation: rest-seal-pulse 1.5s ease-in-out infinite; }
+
+/* ─── Reduced motion — Task 19 decorations ──────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .chronicle-led,
+  .rest-orbit,
+  .rest-star,
+  .rest-sealing {
+    animation: none !important;
+  }
+  /* the stars stay as faint fixed motes when the twinkle is stilled */
+  .rest-star { opacity: 0.55; }
+}
+
+/* ─── Task 20-a · Gate mastery strip — tier pip choreography (appended) ─────── */
+
+/* The mastery strip: a faint tinted scanline field + left aura that breathe
+   with the gate card's hover (--mastery-tint-rgb is set inline per state —
+   amber at SOVEREIGN, violet once ranked, zinc while dormant). */
+.mastery-strip {
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 400ms ease;
+}
+.mastery-strip::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 140px 72px at 16% 50%,
+    rgba(var(--mastery-tint-rgb, 167, 139, 250), 0.12),
+    transparent 70%
+  );
+  opacity: 0.6;
+  transition: opacity 400ms ease;
+}
+.mastery-strip::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(var(--mastery-tint-rgb, 167, 139, 250), 0.055) 0px,
+    rgba(var(--mastery-tint-rgb, 167, 139, 250), 0.055) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+  opacity: 0.5;
+  transition: opacity 400ms ease;
+}
+/* the strip intensifies with its gate card's hover */
+.group:hover .mastery-strip { box-shadow: 0 0 16px rgba(var(--mastery-tint-rgb, 167, 139, 250), 0.14); }
+.group:hover .mastery-strip::before { opacity: 1; }
+.group:hover .mastery-strip::after { opacity: 0.9; }
+
+/* tier pips — staggered diamond fill-in on mount (delay set inline per pip) */
+@keyframes mastery-pip-in {
+  0% { opacity: 0; scale: 0.2; }
+  60% { opacity: 1; scale: 1.35; }
+  100% { opacity: 1; scale: 1; }
+}
+.mastery-pip-in { animation: mastery-pip-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) backwards; }
+
+/* pip choreography on gate-card hover — earned pips flare, the path ahead tints */
+.mastery-pip { transition: scale 250ms ease, border-color 250ms ease; }
+.group:hover .mastery-pip-on { scale: 1.3; }
+.group:hover .mastery-pip:not(.mastery-pip-on) {
+  border-color: rgba(var(--mastery-tint-rgb, 167, 139, 250), 0.45);
+}
+
+/* the highest earned pip — a slow glow heartbeat */
+@keyframes mastery-pip-lead-pulse {
+  0%, 100% { box-shadow: 0 0 4px rgba(var(--mastery-tint-rgb, 167, 139, 250), 0.4); }
+  50% { box-shadow: 0 0 10px rgba(var(--mastery-tint-rgb, 167, 139, 250), 0.95); }
+}
+.mastery-pip-lead { animation: mastery-pip-lead-pulse 2.4s ease-in-out infinite; }
+
+/* a tier-up is close (≥75% of the way) — the next pip beckons */
+@keyframes mastery-pip-beckon {
+  0%, 100% {
+    border-color: rgba(var(--mastery-tint-rgb, 167, 139, 250), 0.35);
+    box-shadow: 0 0 0 0 rgba(var(--mastery-tint-rgb, 167, 139, 250), 0);
+  }
+  50% {
+    border-color: rgba(var(--mastery-tint-rgb, 167, 139, 250), 0.95);
+    box-shadow: 0 0 8px rgba(var(--mastery-tint-rgb, 167, 139, 250), 0.4);
+  }
+}
+.mastery-pip-next { animation: mastery-pip-beckon 1.8s ease-in-out infinite; }
+
+/* progress toward the next tier — a bright shimmer sweep once ≥75% */
+.mastery-fill { position: relative; overflow: hidden; }
+.mastery-fill::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent 25%, rgba(245, 243, 255, 0.85) 50%, transparent 75%);
+  background-size: 200% 100%;
+  opacity: 0;
+}
+.mastery-near .mastery-fill::after {
+  opacity: 1;
+  animation: mastery-shimmer 1.9s linear infinite;
+}
+@keyframes mastery-shimmer {
+  0% { background-position: -150% 0; }
+  100% { background-position: 250% 0; }
+}
+
+/* MAX MASTERY — a slow amber glow breathe on the sovereign line */
+@keyframes mastery-max-glow {
+  0%, 100% { text-shadow: 0 0 5px rgba(251, 191, 36, 0.2); }
+  50% { text-shadow: 0 0 12px rgba(251, 191, 36, 0.55); }
+}
+.mastery-max { animation: mastery-max-glow 3s ease-in-out infinite; }
+
+/* ─── Task 20-a · CALIBRATED chip — scope lock-on (appended) ────────────────── */
+
+.calibrated-chip { position: relative; overflow: hidden; }
+
+/* soft teal bloom breathing behind the crosshair — the lens adjusting */
+.calibrated-chip::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(36px 12px at 22% 50%, rgba(45, 212, 191, 0.16), transparent 70%);
+  opacity: 0.55;
+  animation: calibrated-breathe 3.2s ease-in-out infinite;
+}
+@keyframes calibrated-breathe {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.9; }
+}
+
+/* faint teal sweep passing across the chip */
+.calibrated-chip::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 45%;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(153, 246, 228, 0.28), transparent);
+  transform: translateX(-130%) skewX(-16deg);
+  animation: calibrated-sheen 3.6s ease-in-out infinite;
+}
+@keyframes calibrated-sheen {
+  0% { transform: translateX(-130%) skewX(-16deg); }
+  55%, 100% { transform: translateX(260%) skewX(-16deg); }
+}
+
+/* the crosshair spins in and locks when the chip mounts */
+@keyframes calibrated-lock {
+  0% { opacity: 0; rotate: -135deg; scale: 0.4; }
+  60% { opacity: 1; rotate: 10deg; scale: 1.2; }
+  100% { opacity: 1; rotate: 0deg; scale: 1; }
+}
+.calibrated-lock { animation: calibrated-lock 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) backwards; }
+
+/* ─── Reduced motion — Task 20-a decorations ────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .mastery-pip-in,
+  .mastery-pip-lead,
+  .mastery-pip-next,
+  .mastery-near .mastery-fill::after,
+  .mastery-max,
+  .calibrated-chip::before,
+  .calibrated-chip::after,
+  .calibrated-lock {
+    animation: none !important;
+  }
+  /* the pip flare/hover transition is motion too — keep it static */
+  .mastery-pip { transition: none !important; }
+}
+
+/* ─── Task 21-a · BOSS RAIDS banner — weekly threat ambience (appended) ────── */
+
+/* The live banner breathes its rose border — the apex-threat counterpart to
+   rift-banner's amber breathe, a half-beat quicker. */
+@keyframes boss-breathe {
+  0%, 100% { border-color: rgba(244, 63, 94, 0.38); box-shadow: 0 0 16px rgba(244, 63, 94, 0.1); }
+  50% { border-color: rgba(251, 113, 133, 0.72); box-shadow: 0 0 34px rgba(244, 63, 94, 0.26); }
+}
+.boss-live { animation: boss-breathe 2.8s ease-in-out infinite; }
+
+/* Danger ambience — a faint rose vignette breathing at the frame edges
+   (the rift's calm amber shine vs the boss's creeping dread). */
+@keyframes boss-vignette {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 0.9; }
+}
+.boss-banner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(125% 170% at 50% 50%, transparent 42%, rgba(244, 63, 94, 0.12) 100%);
+  animation: boss-vignette 3.6s ease-in-out infinite;
+}
+/* a very low rose scanline field laid over everything (CRT dread) */
+.boss-banner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(244, 63, 94, 0.05) 0px,
+    rgba(244, 63, 94, 0.05) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+  opacity: 0.5;
+}
+/* hover (pointer:fine) — the dread leans in */
+.boss-banner:hover::before {
+  background: radial-gradient(125% 170% at 50% 50%, transparent 36%, rgba(244, 63, 94, 0.2) 100%);
+}
+.boss-banner:hover::after { opacity: 0.85; }
+
+/* the slain cycle — the dread drains out; a quiet emerald settle remains */
+.boss-slain::before {
+  background: radial-gradient(125% 170% at 50% 50%, transparent 42%, rgba(113, 113, 122, 0.09) 100%);
+  animation: none;
+  opacity: 0.5;
+}
+.boss-slain::after {
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(113, 113, 122, 0.035) 0px,
+    rgba(113, 113, 122, 0.035) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+  opacity: 0.35;
+}
+.boss-slain .boss-marks::before,
+.boss-slain .boss-marks::after {
+  background: rgba(113, 113, 122, 0.09);
+  box-shadow: none;
+}
+
+/* crossed-slash watermark behind the sigil — two very low-opacity rose bars */
+.boss-marks::before,
+.boss-marks::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 148%;
+  height: 8px;
+  margin: -4px 0 0 -74%;
+  border-radius: 9999px;
+  background: rgba(244, 63, 94, 0.13);
+  box-shadow: 0 0 14px rgba(244, 63, 94, 0.1);
+}
+.boss-marks::before { transform: rotate(45deg); }
+.boss-marks::after { transform: rotate(-45deg); }
+
+/* the boss sigil — a menacing double-thump heartbeat */
+@keyframes boss-heartbeat {
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 5px rgba(244, 63, 94, 0.65)); }
+  14% { transform: scale(1.15); filter: drop-shadow(0 0 12px rgba(244, 63, 94, 1)); }
+  28% { transform: scale(1.03); filter: drop-shadow(0 0 7px rgba(244, 63, 94, 0.75)); }
+  42% { transform: scale(1.1); filter: drop-shadow(0 0 10px rgba(244, 63, 94, 0.9)); }
+  60% { transform: scale(1); filter: drop-shadow(0 0 5px rgba(244, 63, 94, 0.65)); }
+}
+.boss-pulse { animation: boss-heartbeat 2s ease-in-out infinite; }
+
+/* damage has reached full HP but the kill isn't sealed — the rose fill
+   shimmers with killing-blow urgency (pr-shimmer convention) */
+.boss-fill-full { position: relative; overflow: hidden; }
+.boss-fill-full::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent 25%, rgba(255, 228, 230, 0.9) 50%, transparent 75%);
+  background-size: 200% 100%;
+  animation: boss-shimmer 1.6s linear infinite;
+}
+@keyframes boss-shimmer {
+  0% { background-position: -150% 0; }
+  100% { background-position: 250% 0; }
+}
+
+/* HP-bar ticks — engraved notches rather than plain cuts */
+.boss-tick {
+  background: linear-gradient(to bottom, rgba(255, 228, 230, 0.28), rgba(0, 0, 0, 0.6));
+}
+
+/* BOSS SLAIN reward chip — a rose sheen sweep (rift-chip convention) */
+.boss-chip { position: relative; overflow: hidden; }
+.boss-chip::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 45%;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(254, 205, 211, 0.22), transparent);
+  animation: boss-chip-sheen 3s ease-in-out infinite;
+}
+@keyframes boss-chip-sheen {
+  0% { transform: translateX(-130%) skewX(-16deg); }
+  55%, 100% { transform: translateX(260%) skewX(-16deg); }
+}
+
+/* ─── Task 21-a · ASCENSION PROTOCOL — sealed rite / rebirth glow (appended) ── */
+
+/* the eligible infinity sigil — breathing fuchsia glow, the rite is awake */
+@keyframes ascend-breathe {
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 4px rgba(245, 158, 11, 0.55)); }
+  50% { transform: scale(1.07); filter: drop-shadow(0 0 11px rgba(245, 158, 11, 0.95)); }
+}
+.ascend-breathe { animation: ascend-breathe 2.6s ease-in-out infinite; }
+
+/* the sealed rite — a dashed containment ring around the dormant sigil */
+@keyframes ascend-seal-breathe {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 0.85; }
+}
+.ascend-sealed::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  pointer-events: none;
+  border: 1px dashed rgba(245, 158, 11, 0.38);
+  border-radius: 3px;
+  animation: ascend-seal-breathe 4s ease-in-out infinite;
+}
+
+/* the rite stirs — within 25% of LV.30 the bar shimmers (mastery convention) */
+.ascend-fill { position: relative; overflow: hidden; }
+.ascend-fill::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent 25%, rgba(253, 244, 255, 0.85) 50%, transparent 75%);
+  background-size: 200% 100%;
+  opacity: 0;
+}
+.ascend-near .ascend-fill::after {
+  opacity: 1;
+  animation: ascend-shimmer 1.9s linear infinite;
+}
+@keyframes ascend-shimmer {
+  0% { background-position: -150% 0; }
+  100% { background-position: 250% 0; }
+}
+
+/* the ascension rite dialog — dark system-window chrome. Extends the Task 17
+   fix: .sys-panel's unlayered position:relative also beats the layered `fixed`
+   on AlertDialogContent (data-slot="alert-dialog-content"), and its unlayered
+   border shorthand beats the layered border-fuchsia utility — re-assert both. */
+[data-slot="alert-dialog-content"].sys-panel {
+  position: fixed !important;
+}
+.ascend-dialog {
+  border-color: rgba(245, 158, 11, 0.4);
+}
+
+/* ─── Task 21-a · Chronicle radar — a faint halo behind the pentagon ───────── */
+
+@keyframes radar-halo-breathe {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 0.95; }
+}
+.radar-halo {
+  position: absolute;
+  inset: 4% 8%;
+  pointer-events: none;
+  border-radius: 9999px;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(161, 161, 170, 0.14), rgba(161, 161, 170, 0.05) 55%, transparent 75%);
+  animation: radar-halo-breathe 5s ease-in-out infinite;
+}
+
+/* ─── Reduced motion — Task 21-a decorations ────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .boss-live,
+  .boss-banner::before,
+  .boss-pulse,
+  .boss-fill-full::after,
+  .boss-chip::after,
+  .ascend-breathe,
+  .ascend-sealed::after,
+  .ascend-near .ascend-fill::after,
+  .radar-halo {
+    animation: none !important;
+  }
+  /* park the ambient layers calm but visible */
+  .boss-banner::before { opacity: 0.45; }
+  .ascend-sealed::after { opacity: 0.6; }
+  .radar-halo { opacity: 0.55; }
+}
+
+/* ─── Task 22-a · Milestone directive cards — category identities (appended) ── */
+
+/* BOSS-HUNT milestones — the danger category. The BossBanner's rose language
+   (boss-live border, rose vignette, CRT scanline dread) at a whisper: a rose
+   left-edge strip, tinted border + wash, a faint scanline field. Only applied
+   to the open/dormant state — completed stays emerald, claimed stays zinc. */
+.milestone-hunt {
+  border-color: rgba(244, 63, 94, 0.34);
+  background-image: linear-gradient(to right, rgba(244, 63, 94, 0.07), rgba(244, 63, 94, 0.02) 44%, transparent 72%);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, background-image 0.25s ease;
+}
+/* the category edge strip — the hunt's blade line (chronicle-edge convention) */
+.milestone-hunt::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 14%;
+  bottom: 14%;
+  width: 2px;
+  border-radius: 9999px;
+  background: linear-gradient(to bottom, transparent, rgba(244, 63, 94, 0.7) 30%, rgba(244, 63, 94, 0.7) 70%, transparent);
+  box-shadow: 0 0 8px rgba(244, 63, 94, 0.4);
+}
+/* a very low rose scanline field (boss-banner::after convention, quieter) */
+.milestone-hunt::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(244, 63, 94, 0.035) 0px,
+    rgba(244, 63, 94, 0.035) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+}
+/* hover (pointer:fine) — the dread leans in */
+.milestone-hunt:hover {
+  border-color: rgba(251, 113, 133, 0.55);
+  box-shadow: 0 0 18px rgba(244, 63, 94, 0.14);
+  background-image: linear-gradient(to right, rgba(244, 63, 94, 0.12), rgba(244, 63, 94, 0.035) 52%, transparent 82%);
+}
+.milestone-hunt:hover::before {
+  background: linear-gradient(to bottom, transparent, rgba(251, 113, 133, 0.95) 30%, rgba(251, 113, 133, 0.95) 70%, transparent);
+  box-shadow: 0 0 13px rgba(244, 63, 94, 0.65);
+}
+
+/* the skull sigil — a quiet glow heartbeat (boss-pulse minus the thump) */
+@keyframes milestone-hunt-glow {
+  0%, 100% { filter: drop-shadow(0 0 3px rgba(244, 63, 94, 0.45)); }
+  50% { filter: drop-shadow(0 0 8px rgba(244, 63, 94, 0.9)); }
+}
+.milestone-hunt-icon { animation: milestone-hunt-glow 3.2s ease-in-out infinite; }
+
+/* ASCENSION milestones — the prestige category. The AscensionCard's fuchsia
+   rite language (sealed ring, breathe glow) at a whisper: a fuchsia edge
+   strip, tinted border + wash, a soft corner halo. */
+.milestone-rite {
+  border-color: rgba(245, 158, 11, 0.4);
+  background-image: linear-gradient(to right, rgba(245, 158, 11, 0.08), rgba(245, 158, 11, 0.025) 44%, transparent 72%);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, background-image 0.25s ease;
+}
+/* the rite edge strip is DASHED — the sealed-rite tick language of the
+   AscensionCard's containment ring, against the hunt's solid blade line */
+.milestone-rite::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 14%;
+  bottom: 14%;
+  width: 2px;
+  border-radius: 9999px;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(245, 158, 11, 0.9) 0px,
+    rgba(245, 158, 11, 0.9) 6px,
+    transparent 6px,
+    transparent 10px
+  );
+  box-shadow: 0 0 8px rgba(245, 158, 11, 0.45);
+}
+/* a soft fuchsia halo in the upper corner — the rite's quiet blessing */
+.milestone-rite::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(80% 150% at 88% 4%, rgba(245, 158, 11, 0.07), transparent 60%);
+}
+.milestone-rite:hover {
+  border-color: rgba(251, 191, 36, 0.58);
+  box-shadow: 0 0 18px rgba(245, 158, 11, 0.14);
+  background-image: linear-gradient(to right, rgba(245, 158, 11, 0.13), rgba(245, 158, 11, 0.04) 52%, transparent 82%);
+}
+.milestone-rite:hover::before {
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(251, 191, 36, 1) 0px,
+    rgba(251, 191, 36, 1) 6px,
+    transparent 6px,
+    transparent 10px
+  );
+  box-shadow: 0 0 13px rgba(245, 158, 11, 0.7);
+}
+
+/* the infinity sigil — a quiet rite glow (ascend-breathe minus the scale) */
+@keyframes milestone-rite-glow {
+  0%, 100% { filter: drop-shadow(0 0 3px rgba(245, 158, 11, 0.4)); }
+  50% { filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.85)); }
+}
+.milestone-rite-icon { animation: milestone-rite-glow 3.4s ease-in-out infinite; }
+
+/* both category strips breathe — a slow beacon on the dormant line
+   (ascend-seal-breathe convention, 4s-class) */
+@keyframes milestone-strip-breathe {
+  0%, 100% { opacity: 0.72; }
+  50% { opacity: 1; }
+}
+.milestone-hunt::before,
+.milestone-rite::before {
+  animation: milestone-strip-breathe 4.2s ease-in-out infinite;
+}
+
+/* ─── Reduced motion — Task 22-a decorations ────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .milestone-hunt-icon,
+  .milestone-rite-icon,
+  .milestone-hunt::before,
+  .milestone-rite::before {
+    animation: none !important;
+  }
+  /* the category tints are static color, not motion — they stay */
+
+  /* R12-c — the swipe-engage blade pulses die with the rest. Double
+     insurance: the !important above already covers the engaged rows, and
+     SwipeRow refuses to engage at all under reduced motion — these
+     selectors just keep the engage contract legible here. The held
+     border/wash brightening stays: color, not motion. */
+  .milestone-hunt[data-swipe-live]::before,
+  .milestone-rite[data-swipe-live]::before {
+    animation: none !important;
+  }
+}
+
+/* ─── Task r10-5 · LIFETIME LEDGER heatmap — etched calendar ambience (appended) */
+
+/* Blueprint field behind the calendar — the chronicle-grid convention at a
+   whisper, fading toward the top so the month rail stays quiet. It lives on
+   an EMPTY absolute span (-z-10) behind the cells: a mask on the cell
+   container itself would clip the cells' rings and dim their colors. */
+.heatmap-field {
+  position: absolute;
+  inset: 0;
+  z-index: -10;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(212, 212, 216, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212, 212, 216, 0.045) 1px, transparent 1px);
+  background-size: 14px 14px;
+  -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.18));
+  mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.18));
+}
+
+/* The month rail — the month currently being lived burns a touch brighter */
+.heatmap-month[data-current="true"] {
+  color: rgba(228, 228, 231, 0.92);
+  text-shadow: 0 0 6px rgba(212, 212, 216, 0.45);
+}
+
+/* Cell foundation — the day is inert until touched */
+.heatmap-cell {
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease,
+    background-color 0.18s ease;
+}
+
+/* Level-4 cells — a quiet glow-breathe: the peak-day fire, banked embers */
+@keyframes heatmap-glow-breathe {
+  0%, 100% { box-shadow: rgba(212, 212, 216, 0.45) 0 0 4px 0px; }
+  50% { box-shadow: rgba(212, 212, 216, 0.78) 0 0 9px 0px; }
+}
+.heatmap-cell[data-level="4"] {
+  animation: heatmap-glow-breathe 4.2s ease-in-out infinite;
+}
+
+/* The best day — an amber wax-seal pulse (pr-trophy / PEAK DAY mote language) */
+@keyframes heatmap-best-pulse {
+  0%, 100% { box-shadow: rgba(252, 211, 138, 0.8) 0 0 0 1px, rgba(245, 158, 11, 0.4) 0 0 5px 0px; }
+  50% { box-shadow: rgba(253, 230, 138, 0.95) 0 0 0 1px, rgba(245, 158, 11, 0.85) 0 0 11px 0px; }
+}
+.heatmap-cell[data-best="true"] {
+  animation: heatmap-best-pulse 3.2s ease-in-out infinite;
+}
+
+/* Today — a soft "you are here" breath on the violet ring */
+@keyframes heatmap-today-breath {
+  0%, 100% { box-shadow: rgba(244, 244, 245, 0.6) 0 0 0 1px, rgba(212, 212, 216, 0.2) 0 0 4px 0px; }
+  50% { box-shadow: rgba(244, 244, 245, 0.95) 0 0 0 1px, rgba(212, 212, 216, 0.5) 0 0 9px 0px; }
+}
+.heatmap-cell[data-today="true"] {
+  animation: heatmap-today-breath 3s ease-in-out infinite;
+}
+
+/* Hover — the day leans forward under the cursor; breathes pause while lit */
+.heatmap-cell:hover {
+  position: relative;
+  z-index: 5;
+  transform: scale(1.45);
+  animation: none;
+}
+.heatmap-cell[data-level="0"]:hover {
+  border-color: rgba(113, 113, 122, 0.85);
+  background-color: rgba(39, 39, 42, 0.95);
+}
+.heatmap-cell[data-level="1"]:hover,
+.heatmap-cell[data-level="2"]:hover,
+.heatmap-cell[data-level="3"]:hover,
+.heatmap-cell[data-level="4"]:hover {
+  border-color: rgba(244, 244, 245, 0.85);
+  box-shadow: rgba(212, 212, 216, 0.68) 0 0 9px 0px;
+}
+.heatmap-cell[data-best="true"]:hover {
+  border-color: rgba(253, 230, 138, 0.9);
+  box-shadow: rgba(253, 230, 138, 1) 0 0 0 1px, rgba(245, 158, 11, 0.95) 0 0 12px 0px;
+}
+.heatmap-cell[data-today="true"]:hover {
+  border-color: rgba(244, 244, 245, 0.9);
+  box-shadow: rgba(244, 244, 245, 1) 0 0 0 1px, rgba(212, 212, 216, 0.7) 0 0 11px 0px;
+}
+
+/* ─── Task r10-5 · WEEKLY DIVINATION — the Oracle's ceremonial reading (appended) */
+
+/* The DIVINE trigger — a quiet violet glow breathe at idle */
+@keyframes divine-trigger-breathe {
+  0%, 100% { box-shadow: 0 0 5px rgba(161, 161, 170, 0.12); }
+  50% { box-shadow: 0 0 14px rgba(161, 161, 170, 0.32); }
+}
+.divine-trigger { animation: divine-trigger-breathe 4.4s ease-in-out infinite; }
+
+/* the sparkle glyph — a slow twinkle */
+@keyframes divine-sparkle {
+  0%, 100% { filter: drop-shadow(0 0 2px rgba(228, 228, 231, 0.4)); }
+  50% { filter: drop-shadow(0 0 6px rgba(228, 228, 231, 0.85)); }
+}
+.divine-trigger > svg { animation: divine-sparkle 3.4s ease-in-out infinite; }
+
+/* hover — the veil parts (verified in compiled CSS; harness is pointer:coarse) */
+.divine-trigger:hover {
+  animation: none;
+  box-shadow: 0 0 17px rgba(161, 161, 170, 0.48);
+}
+.divine-trigger:hover > svg {
+  animation: none;
+  filter: drop-shadow(0 0 6px rgba(244, 244, 245, 0.95));
+}
+
+/* The divining halo — a dashed orbit (oracle-ring convention) that also
+   breathes its border while the veils are consulted; a second, fainter ring
+   inside counter-rotates — the rite has two currents. */
+@keyframes divine-halo-spin { to { transform: rotate(360deg); } }
+@keyframes divine-halo-spin-rev { to { transform: rotate(-360deg); } }
+@keyframes divine-halo-breathe {
+  0%, 100% { border-color: rgba(212, 212, 216, 0.26); }
+  50% { border-color: rgba(228, 228, 231, 0.62); }
+}
+.divine-halo {
+  animation: divine-halo-spin 16s linear infinite, divine-halo-breathe 3.6s ease-in-out infinite;
+}
+.divine-halo::after {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  border-radius: 9999px;
+  border: 1px dashed rgba(212, 212, 216, 0.22);
+  animation: divine-halo-spin-rev 11s linear infinite;
+}
+
+/* The reading chamber — a radial veil falling from the Oracle's eye, laid over
+   the standard system-window gradient */
+.divine-veil {
+  border-color: rgba(212, 212, 216, 0.26);
+  background-image:
+    radial-gradient(120% 85% at 50% 0%, rgba(161, 161, 170, 0.06), transparent 55%),
+    linear-gradient(160deg, rgba(20, 20, 22, 0.72), rgba(15, 15, 17, 0.82));
+}
+
+/* Section quote-bars — the Oracle's ink: a violet→fuchsia gradient blade */
+.divine-quote {
+  border-left: 2px solid;
+  border-image: linear-gradient(to bottom, rgba(161, 161, 170, 0.65), rgba(251, 191, 36, 0.5)) 1;
+}
+
+/* Section headings — a tiny rotated-square sigil before the roman numeral */
+.divine-heading::before {
+  content: "";
+  display: inline-block;
+  width: 3px;
+  height: 3px;
+  margin-right: 7px;
+  vertical-align: 1.5px;
+  transform: rotate(45deg);
+  background: rgba(212, 212, 216, 0.85);
+  box-shadow: 0 0 4px rgba(212, 212, 216, 0.55);
+}
+
+/* The SYSTEM VERDICT — a wax seal: warm amber border breathe, a soft inner
+   glow, and a shimmer line crossing its top edge (pr-shimmer convention) */
+.divine-verdict {
+  position: relative;
+  overflow: hidden;
+  animation: divine-verdict-breathe 4.2s ease-in-out infinite;
+}
+@keyframes divine-verdict-breathe {
+  0%, 100% {
+    border-color: rgba(251, 191, 36, 0.38);
+    box-shadow: inset 0 0 14px rgba(245, 158, 11, 0.05), 0 0 10px rgba(245, 158, 11, 0.07);
+  }
+  50% {
+    border-color: rgba(252, 211, 77, 0.62);
+    box-shadow: inset 0 0 22px rgba(245, 158, 11, 0.11), 0 0 18px rgba(245, 158, 11, 0.17);
+  }
+}
+.divine-verdict::before {
+  content: "";
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  top: 0;
+  height: 1px;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent 20%, rgba(252, 211, 77, 0.65) 50%, transparent 80%);
+  background-size: 200% 100%;
+  animation: divine-verdict-sheen 3s linear infinite;
+}
+@keyframes divine-verdict-sheen {
+  0% { background-position: -150% 0; }
+  100% { background-position: 250% 0; }
+}
+
+/* ─── Task r10-5 · BOSS ENRAGE — tier chips & a hotter hunt (appended) ───────── */
+
+/* Tier 1 EMPOWERED — an amber whisper: the boss remembers its first felling */
+@keyframes enrage-amber-breathe {
+  0%, 100% { border-color: rgba(251, 191, 36, 0.42); box-shadow: 0 0 5px rgba(245, 158, 11, 0.1); }
+  50% { border-color: rgba(252, 211, 77, 0.72); box-shadow: 0 0 12px rgba(245, 158, 11, 0.3); }
+}
+.enrage-empowered { animation: enrage-amber-breathe 3.4s ease-in-out infinite; }
+
+/* Tier 2 ENRAGED — a rose ember: the rage is awake */
+@keyframes enrage-rose-breathe {
+  0%, 100% { border-color: rgba(251, 113, 133, 0.5); box-shadow: 0 0 6px rgba(244, 63, 94, 0.14); }
+  50% { border-color: rgba(253, 164, 175, 0.82); box-shadow: 0 0 14px rgba(244, 63, 94, 0.36); }
+}
+.enrage-enraged { animation: enrage-rose-breathe 2.9s ease-in-out infinite; }
+
+/* Tier 3 APEX — its own dedicated pulse, distinct from the generic sys-pulse
+   blink: a red glow swell with border brightening, quicker and hotter */
+@keyframes apex-chip-breathe {
+  0%, 100% {
+    border-color: rgba(248, 113, 113, 0.62);
+    box-shadow: 0 0 6px rgba(239, 68, 68, 0.24), inset 0 0 6px rgba(239, 68, 68, 0.08);
+  }
+  50% {
+    border-color: rgba(252, 165, 165, 0.95);
+    box-shadow: 0 0 16px rgba(239, 68, 68, 0.52), inset 0 0 10px rgba(239, 68, 68, 0.16);
+  }
+}
+.enrage-apex { animation: apex-chip-breathe 2.2s ease-in-out infinite; }
+
+/* A slain banner settles — its tier chip stops breathing (the dread drains) */
+.enrage-stilled { animation: none !important; }
+
+/* The enraged banner runs hotter — the vignette deepens (and leans further in
+   on hover), and the HP fill carries a breathing heat glow */
+.boss-enraged.boss-banner::before {
+  background: radial-gradient(125% 170% at 50% 50%, transparent 36%, rgba(244, 63, 94, 0.17) 100%);
+}
+.boss-enraged.boss-banner:hover::before {
+  background: radial-gradient(125% 170% at 50% 50%, transparent 30%, rgba(244, 63, 94, 0.25) 100%);
+}
+.boss-enraged .boss-hp-fill { animation: boss-heat-breathe 2.6s ease-in-out infinite; }
+@keyframes boss-heat-breathe {
+  0%, 100% { box-shadow: 0 0 7px rgba(244, 63, 94, 0.3); filter: brightness(1); }
+  50% { box-shadow: 0 0 15px rgba(244, 63, 94, 0.55); filter: brightness(1.16); }
+}
+
+/* The felled line on the slain banner — a quiet ember afterglow */
+@keyframes enrage-felled-glow {
+  0%, 100% { text-shadow: 0 0 4px rgba(244, 63, 94, 0.2); }
+  50% { text-shadow: 0 0 9px rgba(244, 63, 94, 0.55); }
+}
+.enrage-felled { animation: enrage-felled-glow 3.4s ease-in-out infinite; }
+
+/* The reward-overlay enrage chip — a wax-seal amber, the verdict's language */
+@keyframes enrage-seal-breathe {
+  0%, 100% { border-color: rgba(251, 191, 36, 0.5); box-shadow: 0 0 5px rgba(245, 158, 11, 0.12); }
+  50% { border-color: rgba(252, 211, 77, 0.8); box-shadow: 0 0 12px rgba(245, 158, 11, 0.36); }
+}
+.enrage-seal { animation: enrage-seal-breathe 3.6s ease-in-out infinite; }
+
+/* ─── Reduced motion — Task r10-5 decorations ────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .heatmap-cell[data-level="4"],
+  .heatmap-cell[data-best="true"],
+  .heatmap-cell[data-today="true"],
+  .divine-trigger,
+  .divine-trigger > svg,
+  .divine-halo,
+  .divine-halo::after,
+  .divine-verdict,
+  .divine-verdict::before,
+  .enrage-empowered,
+  .enrage-enraged,
+  .enrage-apex,
+  .enrage-felled,
+  .enrage-seal,
+  .boss-enraged .boss-hp-fill {
+    animation: none !important;
+  }
+  /* cells keep their static rings/colors; hover is color-only, no scale */
+  .heatmap-cell,
+  .heatmap-cell:hover {
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+/* ─── Ambient aurora field (R4 flow round) ────────────────────────────────────
+   Very low-opacity pre-blurred radial gradients drifting on transform-only
+   loops (GPU-composited, zero filter cost). Sits behind all content. */
+
+.ambient-aurora {
+  position: fixed;
+  inset: -25%;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.aurora-blob {
+  position: absolute;
+  border-radius: 9999px;
+  will-change: transform;
+}
+
+.aurora-blob-a {
+  width: 58vw;
+  height: 58vw;
+  top: -12%;
+  left: -14%;
+  background: radial-gradient(
+    circle at center,
+    rgba(161, 161, 170, 0.09) 0%,
+    rgba(161, 161, 170, 0.035) 45%,
+    transparent 72%
+  );
+  animation: aurora-drift-a 52s ease-in-out infinite alternate;
+}
+
+.aurora-blob-b {
+  width: 46vw;
+  height: 46vw;
+  bottom: -18%;
+  right: -12%;
+  background: radial-gradient(
+    circle at center,
+    rgba(245, 158, 11, 0.06) 0%,
+    rgba(245, 158, 11, 0.025) 45%,
+    transparent 72%
+  );
+  animation: aurora-drift-b 64s ease-in-out infinite alternate;
+}
+
+.aurora-blob-c {
+  width: 34vw;
+  height: 34vw;
+  top: 32%;
+  left: 38%;
+  background: radial-gradient(
+    circle at center,
+    rgba(45, 212, 191, 0.045) 0%,
+    rgba(45, 212, 191, 0.018) 48%,
+    transparent 70%
+  );
+  animation: aurora-drift-c 76s ease-in-out infinite alternate;
+}
+
+@keyframes aurora-drift-a {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to { transform: translate3d(9vw, 7vh, 0) scale(1.12); }
+}
+
+@keyframes aurora-drift-b {
+  from { transform: translate3d(0, 0, 0) scale(1.05); }
+  to { transform: translate3d(-8vw, -6vh, 0) scale(0.94); }
+}
+
+@keyframes aurora-drift-c {
+  from { transform: translate3d(0, 0, 0) scale(0.92); }
+  to { transform: translate3d(-6vw, 8vh, 0) scale(1.1); }
+}
+
+/* Buttery programmatic scrolls (tab switches) */
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .ambient-aurora {
+    display: none;
+  }
+  .aurora-blob-a,
+  .aurora-blob-b,
+  .aurora-blob-c {
+    animation: none !important;
+  }
+}
+
+/* ─── R9 · IDENTITY LAYER — grain, blueprint grid, display scale ────────────── */
+/* One layer that kills the "template" feel: film grain + blueprint grid give
+   the flat dark mode grit; .sys-display explodes the type scale so data has
+   hero moments; .sys-section gives tabs editorial rhythm (hollow index
+   numerals + hairline rules) instead of uniform stacked boxes; .sys-seg
+   hard-segments any smooth progress bar into a meter with real stops;
+   .sys-bloom/.sys-dim create state hierarchy (guide the eye with light). */
+
+/* Film grain — fixed overlay, 200% canvas, compositor-only jitter */
+.sys-grain {
+  position: fixed;
+  inset: -50%;
+  z-index: 59;
+  pointer-events: none;
+  opacity: 0.065;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain-jitter 0.9s steps(6) infinite;
+}
+@keyframes grain-jitter {
+  0% { transform: translate3d(0, 0, 0); }
+  16% { transform: translate3d(-2%, 1.4%, 0); }
+  33% { transform: translate3d(1.6%, -1.2%, 0); }
+  50% { transform: translate3d(-1.2%, -1.8%, 0); }
+  66% { transform: translate3d(2%, 0.9%, 0); }
+  83% { transform: translate3d(-1.5%, 1.1%, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+
+/* R10 — vignette: darkened corners that seat the column in space. Sits above
+   content, below the glows/grain. Gives stills the depth the VLM audit asked
+   for ("flat dark mode" was its remaining PARTIAL verdict). */
+.sys-vignette {
+  position: fixed;
+  inset: 0;
+  z-index: 57;
+  pointer-events: none;
+  background: radial-gradient(
+    118% 88% at 50% 42%,
+    transparent 58%,
+    rgba(0, 0, 0, 0.5) 100%
+  );
+}
+
+/* Blueprint grid → ripple rings: concentric circles like water around a
+   dropped leaf. Same layer contract (fixed, z -1, masked). */
+.sys-grid-field {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    repeating-radial-gradient(
+      circle at 50% 26%,
+      transparent 0px,
+      transparent 130px,
+      rgba(167, 139, 250, 0.032) 131px,
+      transparent 133px
+    ),
+    repeating-radial-gradient(
+      circle at 82% 88%,
+      transparent 0px,
+      transparent 190px,
+      rgba(94, 234, 212, 0.022) 191px,
+      transparent 193px
+    );
+  -webkit-mask-image: radial-gradient(75% 62% at 50% 38%, black, transparent 88%);
+  mask-image: radial-gradient(75% 62% at 50% 38%, black, transparent 88%);
+}
+
+/* Display numerals — R41: now Fraunces, the organic serif. Hero data reads
+   like a botanical plate, not an instrument cluster. */
+.sys-display {
+  /* R43: grotesque hero numerals (Mirage's PPPangramSans register) — the
+     serif var is reserved for .sys-italic flourishes only. */
+  font-family: var(--font-geist-sans), sans-serif;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 0.92;
+  font-variant-numeric: tabular-nums;
+}
+.sys-display-xl { font-size: clamp(4.5rem, 24vw, 8.5rem); }
+.sys-display-lg { font-size: clamp(3rem, 14vw, 5rem); }
+.sys-display-md { font-size: clamp(2rem, 8.5vw, 3rem); }
+/* Hollow numeral — outlined, for editorial section indices and watermark depth */
+.sys-display-hollow {
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(212, 212, 216, 0.5);
+}
+.sys-display-hollow-amber {
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(251, 191, 36, 0.45);
+}
+.sys-display-hollow-teal {
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(45, 212, 191, 0.45);
+}
+
+/* Editorial section header — index numeral + tracked label + fading rule.
+   Replaces "another box title" with printed-page rhythm. */
+.sys-section {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  user-select: none;
+}
+.sys-section-index {
+  font-family: var(--font-geist-sans), sans-serif;
+  font-weight: 600;
+  font-size: clamp(1.6rem, 6vw, 2.2rem);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  flex: none;
+}
+.sys-section-rule {
+  flex: 1 1 0%;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(212, 212, 216, 0.38), rgba(212, 212, 216, 0.04) 72%, transparent);
+  transform: translateY(-4px);
+}
+
+/* Segmented meter skin — lay over ANY filled bar to get hard stops.
+   The parent keeps its gradient; this adds the block structure on top. */
+.sys-seg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent 0px,
+    transparent 7px,
+    rgba(10, 10, 11, 0.45) 7px,
+    rgba(10, 10, 11, 0.45) 9px
+  );
+}
+.sys-seg-sm {
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent 0px,
+    transparent 4px,
+    rgba(10, 10, 11, 0.4) 4px,
+    rgba(10, 10, 11, 0.4) 5.5px
+  );
+}
+
+/* State hierarchy — bloom the living, dim the dormant */
+.sys-bloom {
+  animation: sys-bloom 3.4s ease-in-out infinite;
+}
+@keyframes sys-bloom {
+  0%, 100% { filter: drop-shadow(0 0 3px rgba(212, 212, 216, 0.3)); }
+  50% { filter: drop-shadow(0 0 7px rgba(212, 212, 216, 0.45)); }
+}
+.sys-bloom-amber { animation: sys-bloom-amber 3.4s ease-in-out infinite; }
+@keyframes sys-bloom-amber {
+  0%, 100% { filter: drop-shadow(0 0 3px rgba(251, 191, 36, 0.3)); }
+  50% { filter: drop-shadow(0 0 7px rgba(251, 191, 36, 0.45)); }
+}
+.sys-bloom-teal { animation: sys-bloom-teal 3.4s ease-in-out infinite; }
+@keyframes sys-bloom-teal {
+  0%, 100% { filter: drop-shadow(0 0 3px rgba(45, 212, 191, 0.3)); }
+  50% { filter: drop-shadow(0 0 7px rgba(45, 212, 191, 0.45)); }
+}
+.sys-dim {
+  opacity: 0.32;
+  filter: saturate(0.6);
+}
+
+/* Left-accent row — hierarchy WITHOUT another full border box. Set the hue
+   inline via --row-accent (e.g. style={{ "--row-accent": "rgba(167,139,250,.7)" }}). */
+.sys-accent-row {
+  position: relative;
+  border-left: 2px solid var(--row-accent, rgba(212, 212, 216, 0.7));
+  background: linear-gradient(90deg, var(--row-lift, rgba(212, 212, 216, 0.05)), transparent 68%);
+}
+
+/* ─── R12-c · SWIPE-ENGAGE — the row lights up while the finger holds it ──── */
+
+/* SwipeRow sets data-swipe-live on its root at the engage beat (the same
+   moment body.swiping goes up) and clears it on release / pointercancel.
+   This is the row-side half of that handshake: the tone rail under the
+   sheet stays the star — these treatments sit a notch beneath it. */
+
+/* Generic accent-row engage — every swiped sys-accent-row (quest rows, fuel
+   entries, milestones). Each row owns its --row-lift inline, so the held
+   state can't "intensify" the var; instead a supplementary violet layer
+   stacks OVER the row's own wash (brightening the bed as the sheet slides
+   away) plus a softened left rail and a quiet held glow. Milestone rows
+   carry sys-accent-row too — the category rules below follow this one on
+   purpose: equal (0,2,0) specificity, so source order is what hands a held
+   hunt/rite row its category glow instead of this violet one. */
+.sys-accent-row[data-swipe-live] {
+  border-left-color: var(--row-accent, rgba(212, 212, 216, 0.7));
+  background-image:
+    linear-gradient(90deg, var(--row-lift, rgba(212, 212, 216, 0.05)), transparent 68%),
+    linear-gradient(90deg, rgba(212, 212, 216, 0.07), transparent 60%);
+  box-shadow: 0 0 16px rgba(161, 161, 170, 0.12);
+}
+
+/* Hunt engage — the blade strip goes live (a claim-swipe on a completed
+   hunt: the boss's blade flares one last time). Lives HERE, after the
+   generic rule — not beside .milestone-hunt at ~1205 — because both
+   selectors tie at (0,2,0) and source order must favor the category hue;
+   it also postdates every .milestone-hunt:hover rule (same tie-break), and
+   these unlayered rules beat Tailwind's layered border utilities outright.
+   The 0.9s blade pulse is the one clear held signal; the scanline field
+   (::after) stays untouched. Border/glow ride the row's existing 0.25s
+   border-color/box-shadow transition, so engage fades in and out. */
+.milestone-hunt[data-swipe-live] {
+  border-color: rgba(251, 113, 133, 0.65);
+  box-shadow: 0 0 20px rgba(244, 63, 94, 0.18);
+}
+.milestone-hunt[data-swipe-live]::before {
+  /* the 4.2s breathe keeps its timeline (same name + config = no restart)
+     while the fast glow pulse rides on top of it */
+  animation: milestone-strip-breathe 4.2s ease-in-out infinite,
+    milestone-hunt-blade 0.9s linear infinite;
+}
+/* the pulse starts exactly at the resting ::before shadow (seamless entry)
+   and peaks at the hunt's rose-300 — zero new hues, all pre-existing values */
+@keyframes milestone-hunt-blade {
+  0%, 100% { box-shadow: 0 0 8px rgba(244, 63, 94, 0.4); }
+  50% { box-shadow: 0 0 16px rgba(251, 113, 133, 0.85); }
+}
+
+/* Rite engage — the dashed strip's GLOW pulses; the dash pattern itself is
+   the rite's identity and never animates. Same cascade contract as hunt. */
+.milestone-rite[data-swipe-live] {
+  border-color: rgba(251, 191, 36, 0.68);
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.18);
+}
+.milestone-rite[data-swipe-live]::before {
+  animation: milestone-strip-breathe 4.2s ease-in-out infinite,
+    milestone-rite-blade 0.9s linear infinite;
+}
+@keyframes milestone-rite-blade {
+  0%, 100% { box-shadow: 0 0 8px rgba(245, 158, 11, 0.45); }
+  50% { box-shadow: 0 0 16px rgba(251, 191, 36, 0.9); }
+}
+
+/* Hairline separator — intra-panel dividers that aren't borders */
+.sys-hairline {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212, 212, 216, 0.22) 18%, rgba(212, 212, 216, 0.22) 82%, transparent);
+}
+
+/* ─── R9 · SWIPEFLOW — gesture navigation chrome ────────────────────────────── */
+
+/* Edge hint chevrons (mobile only) — faint, breathing, pointer-tappable */
+.swipe-edge {
+  position: fixed;
+  top: 50%;
+  z-index: 40;
+  display: none;
+  transform: translateY(-50%);
+  width: 34px;
+  height: 88px;
+  align-items: center;
+  justify-content: center;
+  color: rgba(228, 228, 231, 0.55);
+  cursor: pointer;
+  background: linear-gradient(90deg, rgba(161, 161, 170, 0.1), transparent);
+  border: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.swipe-edge-l { left: 0; border-radius: 0 6px 6px 0; }
+.swipe-edge-r { right: 0; border-radius: 6px 0 0 6px; background: linear-gradient(270deg, rgba(161, 161, 170, 0.1), transparent); }
+@media (max-width: 767px) {
+  .swipe-edge { display: flex; }
+}
+.swipe-edge svg { animation: swipe-edge-pulse 2.6s ease-in-out infinite; }
+.swipe-edge-l svg { animation-delay: 0s; }
+.swipe-edge-r svg { animation-delay: 1.3s; }
+@keyframes swipe-edge-pulse {
+  0%, 100% { opacity: 0.35; transform: translateX(0); }
+  50% { opacity: 1; transform: translateX(2px); }
+}
+.swipe-edge-l svg { animation-name: swipe-edge-pulse-l; }
+@keyframes swipe-edge-pulse-l {
+  0%, 100% { opacity: 0.35; transform: translateX(0); }
+  50% { opacity: 1; transform: translateX(-2px); }
+}
+
+/* Directional drag glow — the screen edge lights up as you pull toward a tab */
+.swipe-glow {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 92px;
+  z-index: 38;
+  pointer-events: none;
+  opacity: 0;
+}
+.swipe-glow-l {
+  left: 0;
+  background: linear-gradient(90deg, rgba(212, 212, 216, 0.22), rgba(212, 212, 216, 0.05) 60%, transparent);
+}
+.swipe-glow-r {
+  right: 0;
+  background: linear-gradient(270deg, rgba(212, 212, 216, 0.22), rgba(212, 212, 216, 0.05) 60%, transparent);
+}
+
+/* R10 — peek ghost: the destination tab's hollow numeral + name, lit at the
+   leading edge while dragging toward it. Content/opacity painted imperatively
+   by SwipeFlow; this is placement + type only. */
+.swipe-ghost {
+  position: fixed;
+  top: 44%;
+  z-index: 39;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  opacity: 0;
+  user-select: none;
+  filter: drop-shadow(0 0 24px rgba(161, 161, 170, 0.38));
+}
+.swipe-ghost[data-side="r"] { right: 14px; align-items: flex-end; }
+.swipe-ghost[data-side="l"] { left: 14px; align-items: flex-start; }
+.swipe-ghost-num {
+  font-family: var(--font-geist-mono), monospace;
+  font-weight: 900;
+  font-size: clamp(2.6rem, 11vw, 4rem);
+  line-height: 0.9;
+  letter-spacing: -0.045em;
+}
+
+/* R11 — ghost depth: the destination tab's panel stack ghosting through.
+   Three hairline wireframe panels surface behind the numeral once the drag
+   runs deep (opacity painted imperatively from SwipeFlow.paint). Alignment
+   inherits the ghost's side so the wireframe leans the same way as the
+   numeral. Never interactive, never in the a11y tree (parent is aria-hidden). */
+.swipe-ghost-panels {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  opacity: 0;
+}
+.swipe-ghost[data-side="r"] .swipe-ghost-panels { align-items: flex-end; }
+.swipe-ghost[data-side="l"] .swipe-ghost-panels { align-items: flex-start; }
+.swipe-ghost-panel {
+  display: block;
+  height: 34px;
+  border: 1px solid rgba(212, 212, 216, 0.18);
+  border-radius: 2px;
+  background: rgba(161, 161, 170, 0.04);
+}
+.swipe-ghost-panel:nth-child(2) { border-color: rgba(212, 212, 216, 0.13); }
+.swipe-ghost-panel:nth-child(3) { border-color: rgba(212, 212, 216, 0.09); }
+
+/* One-time "swipe to navigate" hint chip */
+/* R42 studio — the hint is a whisper: softer chrome, no glow billboard */
+.swipe-hint {
+  position: fixed;
+  bottom: calc(env(safe-area-inset-bottom) + 5.25rem);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 40;
+  display: none;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.85rem;
+  border: 1px solid rgba(212, 212, 216, 0.14);
+  background: rgba(15, 15, 17, 0.55);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22);
+  border-radius: 9999px;
+  animation: swipe-hint-float 2.8s ease-in-out infinite;
+}
+@media (max-width: 767px) {
+  .swipe-hint { display: flex; }
+}
+.swipe-hint svg { animation: swipe-edge-pulse 1.6s ease-in-out infinite; }
+.swipe-hint svg:last-child { animation-name: swipe-edge-pulse-l; }
+@keyframes swipe-hint-float {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(-5px); }
+}
+
+/* R13-b — one-time "swipe rows to act" hint chip: the row-gesture parallel
+   of .swipe-hint (RowHint mounts it once per session per swipeable surface).
+   Same mono micro-label / violet family, row-flavored: a grip-dots glyph sits
+   between the directional chevrons. Fixed (zero layout shift) and parked one
+   chip-height ABOVE the swipe-hint zone so the two can coexist on a
+   first-session screen without colliding. Mobile-only, like its sibling.
+   The invisible ::after pad grows the dismiss target past the 44px touch
+   minimum without growing the visual chip (clicks on pseudo-element boxes hit
+   the originating button). */
+/* R42 studio — the row-hint joins the whisper family (pill, faint chrome) */
+.row-hint {
+  position: fixed;
+  bottom: calc(env(safe-area-inset-bottom) + 7.5rem);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 40;
+  display: none;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.85rem;
+  border: 1px solid rgba(212, 212, 216, 0.14);
+  background: rgba(15, 15, 17, 0.55);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22);
+  border-radius: 9999px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  animation: row-hint-float 2.6s ease-in-out infinite;
+}
+.row-hint::after {
+  /* ≥44px dismiss pad around the small visual chip */
+  content: "";
+  position: absolute;
+  inset: -0.75rem -0.5rem;
+}
+@media (max-width: 767px) {
+  .row-hint { display: flex; }
+}
+/* chevrons pulse outward like the tab chip's; the grip glyph stays static —
+   it is the row identity, not the direction */
+.row-hint > svg:first-child { animation: swipe-edge-pulse 1.6s ease-in-out infinite; }
+.row-hint > svg:last-child { animation: swipe-edge-pulse-l 1.6s ease-in-out infinite; }
+@keyframes row-hint-float {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(-5px); }
+}
+
+/* While a horizontal swipe is engaged — kill selection & grab the cursor */
+body.swiping,
+body.swiping * {
+  user-select: none !important;
+  -webkit-user-select: none !important;
+}
+body.swiping {
+  cursor: grabbing;
+}
+
+/* R9 reduced-motion — grain jitter, blooms, edge pulses off; grain stays as
+   a static texture (it is texture, not motion) */
+@media (prefers-reduced-motion: reduce) {
+  .sys-grain { animation: none; }
+  .sys-bloom, .sys-bloom-amber, .sys-bloom-teal { animation: none; filter: none; }
+  .swipe-edge svg, .swipe-hint, .swipe-hint svg, .row-hint, .row-hint svg { animation: none; }
+}
+
+/* ─── R20-a · App-feel primitives (PWA / installed-app chrome) ──────────────
+   Additive-only rules for the Play-Store install target. Nothing above this
+   marker was touched by the PWA hardening round. */
+html {
+  /* app-like scroll: no rubber-band bounce / pull-to-refresh navigating away
+     from the single-route SPA (page-level only — inner panels keep their
+     native scrolling and momentum) */
+  overscroll-behavior-y: none;
+}
+body {
+  /* kill the mobile gray tap flash on every control — the app's own active
+     and focus-visible states are the feedback */
+  -webkit-tap-highlight-color: transparent;
+}
+/* Chrome-element utility: locks selection on app-chrome surfaces (nav bars,
+   banner buttons, sheet headers). Deliberately NOT applied globally — stats
+   numerals, log notes and error text must stay selectable for copy/paste. */
+.no-select {
+  user-select: none;
+  -webkit-user-select: none;
+}
+/* Standalone-display hook (R20-a): rules here apply ONLY inside the installed
+   PWA / Play TWA launcher, never the browser tab. Intentionally empty at
+   v2.0 — the app keeps full feature parity across displays; this is the
+   documented seam for future install-only chrome (e.g. hiding the footer
+   ONLINE strip, extra iOS home-indicator padding). */
+@media (display-mode: standalone) {
+  /* reserved — see the comment above */
+}
+
+/* ─── Scroll-reveal flow system ──────────────────────────────────────────────
+   Panels rise in as the user scrolls. The `html.js-reveal` gate class is added
+   at client-bundle EVAL time by components/system/reveal.tsx — before first
+   render — so the hidden state applies with zero flash, while the SSR markup
+   ships fully visible (no-JS users and crawlers always see content; React
+   never diffs classes it didn't render). Only transform/opacity animate:
+   compositor-only, 60fps. `[data-revealed]` is the React-proof twin — React
+   re-assigns className on rendered-string changes, which wipes the imperative
+   `.is-visible`, so the attribute self-heals visibility. */
+html.js-reveal [data-reveal] {
+  opacity: 0;
+  transform: translateY(14px) scale(0.995);
+}
+html.js-reveal [data-reveal].is-visible,
+html.js-reveal [data-revealed] {
+  opacity: 1;
+  transform: none;
+}
+html.js-reveal [data-reveal].is-visible {
+  transition:
+    opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0s);
+}
+@media (prefers-reduced-motion: reduce) {
+  html.js-reveal [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* ─── R41 · THE GROVE — organic motion & interaction kit ──────────────────────
+   The flowy layer: breathing, swaying, drifting, rippling. Everything a leaf
+   does. All classes are opt-in utilities; all animations honor
+   prefers-reduced-motion via the guard at the bottom of this block. */
+
+/* Breathe — slow scale pulse, like a chest or a canopy */
+@keyframes grove-breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+}
+.grove-breathe { animation: grove-breathe 4.8s ease-in-out infinite; }
+.grove-breathe-slow { animation: grove-breathe 7.5s ease-in-out infinite; }
+
+/* Sway — gentle rotation, wind through branches */
+@keyframes grove-sway {
+  0%, 100% { transform: rotate(-1.6deg); }
+  50% { transform: rotate(1.8deg); }
+}
+.grove-sway { animation: grove-sway 5.6s ease-in-out infinite; }
+.grove-sway-slow { animation: grove-sway 9s ease-in-out infinite; }
+
+/* Drift — float upward a few px and settle back */
+@keyframes grove-drift {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-7px); }
+}
+.grove-drift { animation: grove-drift 6.4s ease-in-out infinite; }
+
+/* Sprout — grow in from below (entrances) */
+@keyframes grove-sprout {
+  from { opacity: 0; transform: translateY(16px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.grove-sprout { animation: grove-sprout 0.55s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+/* Ripple — one soft ring expanding outward (tap feedback) */
+@keyframes grove-ripple {
+  from { transform: scale(0.6); opacity: 0.55; }
+  to { transform: scale(2.4); opacity: 0; }
+}
+.grove-ripple { animation: grove-ripple 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+
+/* Flow — a background gradient sliding slowly along its own axis */
+@keyframes grove-flow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.grove-flow {
+  background-size: 220% 220%;
+  animation: grove-flow 9s ease-in-out infinite;
+}
+
+/* ─── Interaction utilities (hover / press micro-feedback) ─────────────────── */
+
+/* Cards & rows: lift on hover, settle on leave — soil under the fingers */
+.grove-lift {
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.35s ease;
+  will-change: transform;
+}
+.grove-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.34), 0 0 24px rgba(161, 161, 170, 0.07);
+  border-color: rgba(212, 212, 216, 0.28);
+}
+.grove-lift:active { transform: translateY(0) scale(0.995); }
+
+/* Buttons & chips: squash on press, release with life */
+.grove-press {
+  transition:
+    transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.22s ease,
+    filter 0.22s ease;
+}
+.grove-press:hover { filter: brightness(1.07); }
+.grove-press:active { transform: scale(0.965); }
+
+/* Organic ring — a living gradient border for hero moments (set border-radius
+   on the element; the ring follows it) */
+.organic-ring {
+  position: relative;
+}
+.organic-ring::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    rgba(212, 212, 216, 0.55),
+    rgba(251, 191, 36, 0.25),
+    rgba(45, 212, 191, 0.4),
+    rgba(212, 212, 216, 0.55)
+  );
+  background-size: 260% 260%;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+  animation: grove-flow 11s ease-in-out infinite;
+}
+
+/* ─── Studio ambient rim light (rendered by studio-ambient.tsx) ───────── */
+
+/* Rim — Mirage's edge-lighting cue: soft white crests bleeding in from the
+   viewport edges (the rim light on their monochrome smoke), breathing on a
+   slow canon. Replaces the retired firefly/leaf particle field. */
+@keyframes rim-breathe {
+  0%, 100% { opacity: 0.55; transform: translateX(-1.5%); }
+  50% { opacity: 1; transform: translateX(1.5%); }
+}
+.studio-rim-field {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+.studio-rim {
+  position: absolute;
+  left: -10%;
+  width: 120%;
+  height: 180px;
+  background: radial-gradient(
+    50% 100% at 50% 0%,
+    rgba(240, 240, 240, 0.05) 0%,
+    rgba(240, 240, 240, 0.016) 46%,
+    transparent 74%
+  );
+  animation: rim-breathe 9s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+.studio-rim-top { top: -8px; }
+.studio-rim-bottom {
+  bottom: -8px;
+  background: radial-gradient(
+    50% 100% at 50% 100%,
+    rgba(240, 240, 240, 0.04) 0%,
+    rgba(240, 240, 240, 0.012) 46%,
+    transparent 74%
+  );
+  animation-delay: 4.5s;
+}
+
+/* ─── Reduced motion — the whole studio kit goes still ─────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .grove-breathe,
+  .grove-breathe-slow,
+  .grove-sway,
+  .grove-sway-slow,
+  .grove-drift,
+  .grove-flow,
+  .organic-ring::before,
+  .studio-rim,
+  .studio-rim-field {
+    animation: none !important;
+  }
+  .studio-rim { opacity: 0.4 !important; }
+  .grove-lift,
+  .grove-press {
+    transition: none !important;
+  }
+  .grove-lift:hover { transform: none; }
+  .grove-press:active { transform: none; }
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   R42 · STUDIO GROVE — the Mirage × Kota elevation layer
+   Reference synthesis (studiomirage.io + madebykota.com):
+   film-grain cinema · oversized editorial serif with italic flourishes ·
+   glassy pill chrome · luminous hairline meters · ambient auras behind
+   primary actions · layered depth · gentle marquees · breathing whitespace.
+   All additive, token-level, on the existing grove palette (emerald/amber,
+   zero new hues, text stays ≥ zinc-400).
+   ════════════════════════════════════════════════════════════════════════════ */
+
+/* ── 1 · Editorial italic — Fraunces at a whisper (Kota's Times flourish) ── */
+.sys-italic {
+  font-family: var(--font-fraunces), var(--font-geist-sans), serif;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0.005em;
+  /* optical size leans soft; slightly lower for baseline rhythm with sans */
+  font-optical-sizing: auto;
+}
+
+/* ── 2 · Aurora meter — a luminous hairline, not a loading bar (Mirage) ──── */
+/* Wrap: 2–3px track whose ends dissolve into the dark; pour a gradient fill
+   inside and it reads as northern light, not a 2015 progress bar. */
+.aurora-track {
+  position: relative;
+  height: 3px;
+  border-radius: 9999px;
+  background: rgba(212, 212, 216, 0.09);
+  -webkit-mask-image: linear-gradient(90deg, transparent, black 12%, black 88%, transparent);
+  mask-image: linear-gradient(90deg, transparent, black 12%, black 88%, transparent);
+  overflow: hidden;
+}
+.aurora-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: 9999px;
+  background: linear-gradient(
+    90deg,
+    rgba(212, 212, 216, 0.35),
+    rgba(212, 212, 216, 0.95),
+    rgba(253, 230, 138, 0.9)
+  );
+  box-shadow:
+    0 0 12px rgba(212, 212, 216, 0.35),
+    0 0 3px rgba(253, 230, 138, 0.5);
+  transition: width 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.aurora-fill-amber {
+  background: linear-gradient(
+    90deg,
+    rgba(251, 191, 36, 0.35),
+    rgba(251, 191, 36, 0.95),
+    rgba(253, 230, 138, 0.9)
+  );
+  box-shadow:
+    0 0 12px rgba(251, 191, 36, 0.3),
+    0 0 3px rgba(253, 230, 138, 0.5);
+}
+/* the slow shimmer that keeps a filled aurora alive */
+.aurora-fill::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    105deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.28) 50%,
+    transparent 70%
+  );
+  transform: translateX(-130%);
+  animation: aurora-sheen 3.6s ease-in-out infinite;
+}
+@keyframes aurora-sheen {
+  0% { transform: translateX(-130%); }
+  55%, 100% { transform: translateX(130%); }
+}
+
+/* ── 3 · Glass pill — floating chip chrome for banners & controls (both) ──── */
+.glass-pill {
+  /* R43: true Mirage frosted glass — white alpha fill over the void, not a
+     dark tint. The blur does the darkening. */
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 9999px;
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.03));
+  backdrop-filter: blur(14px);
+  box-shadow:
+    0 6px 22px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+.glass-pill-amber {
+  border-color: rgba(251, 191, 36, 0.2);
+}
+
+/* ── 4 · Ambient aura — soft radial light behind primary moments (Mirage) ── */
+/* Apply to a wrapper (position:relative); the ::before glows behind content. */
+.aura-glow { position: relative; }
+.aura-glow::before {
+  content: "";
+  position: absolute;
+  inset: -26%;
+  z-index: -1;
+  border-radius: inherit;
+  background: radial-gradient(closest-side, rgba(212, 212, 216, 0.16), transparent 72%);
+  filter: blur(18px);
+  pointer-events: none;
+  animation: aura-breathe 5.2s ease-in-out infinite;
+}
+.aura-glow-amber::before {
+  background: radial-gradient(closest-side, rgba(251, 191, 36, 0.14), transparent 72%);
+}
+@keyframes aura-breathe {
+  0%, 100% { opacity: 0.6; transform: scale(0.96); }
+  50% { opacity: 1; transform: scale(1.04); }
+}
+
+/* ── 5 · Grove marquee — the gentle infinite ticker (Kota signature) ─────── */
+.grove-marquee {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+}
+.grove-marquee-track {
+  display: flex;
+  align-items: center;
+  gap: 2.75rem;
+  width: max-content;
+  padding-right: 2.75rem;
+  /* R42-b measured ~65px/s at 36s — too quick for a whisper. 54s lands the
+     drift near ~43px/s (duration is track-width relative). */
+  animation: grove-marquee-drift 54s linear infinite;
+}
+.grove-marquee:hover .grove-marquee-track,
+.grove-marquee:focus-within .grove-marquee-track {
+  animation-play-state: paused;
+}
+@keyframes grove-marquee-drift {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* ── 6 · Line reveal — headings rise out of a mask, one line at a time ──── */
+.line-reveal {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.08em; /* descenders breathe inside the mask */
+  margin-bottom: -0.08em;
+}
+.line-reveal > * {
+  display: block;
+  transform: translateY(110%);
+  animation: line-rise 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: var(--line-delay, 0s);
+}
+@keyframes line-rise {
+  to { transform: translateY(0); }
+}
+
+/* ── 7 · Depth card — soft isometric lift for stacked media (Mirage) ─────── */
+/* Restrained for a phone column: 1–2° tilt + long diffuse shadow. */
+.depth-card {
+  transition:
+    transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  box-shadow:
+    0 22px 48px rgba(0, 0, 0, 0.38),
+    0 4px 12px rgba(0, 0, 0, 0.22);
+}
+.depth-card:hover {
+  transform: translateY(-4px) rotate(-0.6deg);
+  box-shadow:
+    0 30px 64px rgba(0, 0, 0, 0.42),
+    0 0 0 1px rgba(212, 212, 216, 0.1);
+}
+
+/* ── 8 · Pill button chrome — primary actions as glowing capsules ───────── */
+.pill-action {
+  border-radius: 9999px;
+  transition:
+    transform 0.24s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.3s ease,
+    filter 0.24s ease;
+}
+.pill-action:active { transform: scale(0.955); }
+
+/* ── R42 reduced-motion guards (append to the grove kit's) ───────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .aurora-fill { transition: none !important; }
+  .aurora-fill::after,
+  .aura-glow::before,
+  .grove-marquee-track { animation: none !important; }
+  .line-reveal > * { animation: none !important; transform: none !important; }
+  .depth-card,
+  .pill-action { transition: none !important; }
+  .depth-card:hover { transform: none; }
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   R44 · GATE KIT — the immersive entry experience (Phase C)
+   The prime-gate overlay: violet identity chrome + the CSS-fallback
+   centerpiece. All additive, token-level; reduced-motion guarded below.
+   ════════════════════════════════════════════════════════════════════════════ */
+
+/* ── 1 · Violet glass chrome — active/identity moments (Mirage glass + violet) ── */
+.glass-pill-violet {
+  border-color: rgba(167, 139, 250, 0.3);
+  background: linear-gradient(165deg, rgba(139, 92, 246, 0.12), rgba(139, 92, 246, 0.05));
+}
+.aura-glow-violet::before {
+  background: radial-gradient(closest-side, rgba(139, 92, 246, 0.22), transparent 72%);
+}
+
+/* ── 2 · Gate fallback centerpiece — the CSS monolith's breathing aura ────── */
+/* When WebGL is unavailable (or reduced-motion requests stillness minus the
+   breath), the obsidian monolith is composed from layered gradients and this
+   slow luminous exhale keeps it alive without a single JS frame. */
+.gate-breathe {
+  animation: gate-breathe 5.6s ease-in-out infinite;
+}
+@keyframes gate-breathe {
+  0%, 100% { opacity: 0.55; transform: scale(0.97); }
+  50% { opacity: 1; transform: scale(1.03); }
+}
+
+/* ── 3 · Gate entrance stagger — content rises as one composed block ─────── */
+.gate-rise {
+  transform: translateY(26px);
+  opacity: 0;
+  animation: gate-rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: var(--gate-delay, 0s);
+}
+@keyframes gate-rise {
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gate-breathe { animation: none !important; opacity: 0.8; }
+  .gate-rise { animation: none !important; transform: none !important; opacity: 1; }
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   R45 · COMMAND KIT — Phase D: the Status command center
+   Two additions for the command deck (Layer A) and the destination index
+   (Layer C): the identity's violet aurora fill, and the editorial row's
+   hairline that draws itself on approach. Additive, token-level.
+   ════════════════════════════════════════════════════════════════════════════ */
+
+/* ── 1 · Violet aurora — the identity fill for the command deck's XP meter ──
+   The aurora signature (dissolved ends, luminous body, warm tip) rendered in
+   the R44 electric-violet identity; the amber tip survives as the shared
+   "goal" accent at the end of every aurora in the system. */
+.aurora-fill-violet {
+  background: linear-gradient(
+    90deg,
+    rgba(139, 92, 246, 0.35),
+    rgba(167, 139, 250, 0.95),
+    rgba(253, 230, 138, 0.85)
+  );
+  box-shadow:
+    0 0 12px rgba(167, 139, 250, 0.35),
+    0 0 3px rgba(253, 230, 138, 0.45);
+}
+
+/* ── R49 · AURORA FAMILY COMPLETION — rose (danger/deduct) + fuchsia
+   (rite/prestige) fills, the two tones that rode plain gradient skins on
+   aurora tracks since R48-a (hunt/rite milestone blades). Same construction
+   as amber/violet: tone body, warm-light tip, matching glow; the shared
+   .aurora-fill::after sheen + its reduced-motion guard apply automatically. */
+.aurora-fill-rose {
+  background: linear-gradient(
+    90deg,
+    rgba(244, 63, 94, 0.35),
+    rgba(251, 113, 133, 0.95),
+    rgba(253, 164, 175, 0.9)
+  );
+  box-shadow:
+    0 0 12px rgba(251, 113, 133, 0.32),
+    0 0 3px rgba(253, 164, 175, 0.5);
+}
+.aurora-fill-fuchsia {
+  background: linear-gradient(
+    90deg,
+    rgba(217, 70, 239, 0.35),
+    rgba(232, 121, 249, 0.95),
+    rgba(251, 207, 255, 0.9)
+  );
+  box-shadow:
+    0 0 12px rgba(232, 121, 249, 0.32),
+    0 0 3px rgba(251, 207, 255, 0.5);
+}
+
+/* ── R50 · AURORA FAMILY — teal fill, the raid console's live-training
+   semantic (the plan-block completion meter, mirroring how the REST pill and
+   the deploy hovers speak teal). Same construction as the R49 pair: tone
+   body, own-light tip, matching glow; the shared ::after sheen + its
+   reduced-motion guard apply automatically. */
+.aurora-fill-teal {
+  background: linear-gradient(
+    90deg,
+    rgba(45, 212, 191, 0.35),
+    rgba(94, 234, 212, 0.95),
+    rgba(153, 246, 228, 0.9)
+  );
+  box-shadow:
+    0 0 12px rgba(94, 234, 212, 0.35),
+    0 0 3px rgba(153, 246, 228, 0.5);
+}
+
+/* ── R49 · MASTERY-NEAR RE-ARM — R48-b moved the mastery meters onto the
+   aurora family and the old .mastery-fill shimmer hook (line ~951, now dead)
+   went inert. The ≥75% near state gets its urgency back, aurora-voiced: the
+   sheen accelerates 3.6s → 1.6s and the glow warms a notch. Specificity
+   (0,2,x) beats .aurora-fill-amber; the R42 reduced-motion guard's
+   animation:none !important still wins over both — guarded by construction. */
+.mastery-near .aurora-fill::after {
+  animation-duration: 1.6s;
+}
+.mastery-near .aurora-fill {
+  box-shadow:
+    0 0 14px rgba(251, 191, 36, 0.4),
+    0 0 4px rgba(253, 230, 138, 0.55);
+}
+
+/* ── 2 · Index row — KOTA editorial row; a violet hairline draws across the
+   row's top edge on approach (hover/focus), one line of light landing on the
+   destination. Sits over the row's zinc border-t (first row: the container's
+   top edge — the container clips nothing; the hairline is 1px, inset-safe). */
+.index-row { position: relative; }
+.index-row::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: -1px;
+  height: 1px;
+  width: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(167, 139, 250, 0.65),
+    rgba(167, 139, 250, 0.1) 70%,
+    transparent
+  );
+  transition: width 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+.index-row:hover::after,
+.index-row:focus-visible::after { width: 100%; }
+
+/* R45 reduced-motion guard — the hairline lands instantly, no draw */
+@media (prefers-reduced-motion: reduce) {
+  .index-row::after { transition: none !important; width: 100%; }
+}
+
+/* ─── R57 · CLEAN SLATE — the Duolingo-era light identity ──────────────────
+   The user retired the cinematic dark studio: "too much clutter — complete
+   change, refer to Duolingo, simple crisp and human, super clean and neat."
+   The whole app flips to a light, friendly, app-like surface in ONE place:
+
+   1) :root tokens re-declared to light values (later cascade wins) — body,
+      cards, popovers, shadcn primitives all become white/ink instantly.
+   2) The violet scale re-maps to the fresh green identity scale (the R44
+      trick in reverse: class NAMES stay, feel reborn) — every violet-*
+      utility across the ~70 legacy components re-renders green with zero
+      component edits. fuchsia stays gold (achievements), teal carries data.
+   3) .legacy-surface scopes readable text/bg remaps for dark-era utilities
+      (text-zinc-300/400 → readable grays, bg-zinc-100/200 stay light chips)
+      so the preserved legacy deep views mount legibly on white.
+   4) .prime-progress-fill adds the glossy Duolingo bar sheen.
+   Merge & hide: nothing above deletes any rule — the dark studio CSS stays
+   on disk, simply later-declared. */
+
+@theme {
+  /* violet class names now carry the PRIME green identity scale */
+  --color-violet-50: #f0fce4;
+  --color-violet-100: #ddf3c4;
+  --color-violet-200: #c3e8a0;
+  --color-violet-300: #58a700;
+  --color-violet-400: #58cc02;
+  --color-violet-500: #46a302;
+  --color-violet-600: #3c8a02;
+  --color-violet-700: #2f6b02;
+  --color-violet-800: #23520a;
+  --color-violet-900: #1a3d0a;
+  --color-violet-950: #0e2605;
+}
+
+:root {
+  /* light canvas + warm ink */
+  --background: #ffffff;
+  --foreground: #3c3c3c;
+  --card: #ffffff;
+  --card-foreground: #3c3c3c;
+  --popover: #ffffff;
+  --popover-foreground: #3c3c3c;
+  --primary: #58cc02;
+  --primary-foreground: #ffffff;
+  --secondary: #f7f7f4;
+  --secondary-foreground: #3c3c3c;
+  --muted: #f2f2ee;
+  --muted-foreground: #8a8a8a;
+  --accent: #e8f8d8;
+  --accent-foreground: #2f6b02;
+  --destructive: #ff4b4b;
+  --border: #e5e5e5;
+  --input: #e5e5e5;
+  --ring: #58cc02;
+  --chart-1: #58cc02;
+  --chart-2: #ffc800;
+  --chart-3: #0faf9a;
+  --chart-4: #ff9600;
+  --chart-5: #ff4b4b;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #3c3c3c;
+  --sidebar-primary: #58cc02;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #e8f8d8;
+  --sidebar-accent-foreground: #2f6b02;
+  --sidebar-border: #e5e5e5;
+  --sidebar-ring: #58cc02;
+}
+
+/* the light body: white canvas, green selection */
+body {
+  background: #ffffff;
+  color: #3c3c3c;
+}
+::selection { background: rgba(88, 204, 2, 0.25); }
+
+/* legacy deep views mount inside this scope — dark-era text utilities are
+   re-inked to readable grays while light-chip backgrounds stay light */
+.legacy-surface {
+  background: #fbfbf8;
+  border: 1px solid #ecece7;
+  border-radius: 1.25rem;
+}
+.legacy-surface .sys-panel {
+  background: #ffffff;
+  border: 1px solid #e5e5e5;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+.legacy-surface .text-zinc-100 { color: #2e2e2e; }
+.legacy-surface .text-zinc-200 { color: #3c3c3c; }
+.legacy-surface .text-zinc-300 { color: #5a5a5a; }
+.legacy-surface .text-zinc-400 { color: #6e6e6e; }
+.legacy-surface .text-zinc-500 { color: #5c5c5c; }
+.legacy-surface .text-zinc-600 { color: #4a4a4a; }
+.legacy-surface .bg-zinc-100 { background-color: #e9e9e4; }
+.legacy-surface .bg-zinc-200 { background-color: #dcdcd6; }
+.legacy-surface .bg-zinc-950 { background-color: #2e2e2e; }
+/* VLM-audited contrast fixes: the dark era used light-end palette steps as
+   TEXT on dark surfaces — on white they would wash out. Same-family dark
+   hues keep the semantic color while restoring readability. */
+.legacy-surface .text-violet-200 { color: #46a302; }
+.legacy-surface .text-violet-300 { color: #2f6b02; }
+.legacy-surface .text-fuchsia-200 { color: #7a5a00; }
+.legacy-surface .text-fuchsia-300 { color: #8a6d00; }
+.legacy-surface .text-amber-200 { color: #7a5a00; }
+.legacy-surface .text-amber-300 { color: #8a6d00; }
+.legacy-surface .text-amber-400 { color: #8a6d00; }
+.legacy-surface .text-teal-200 { color: #0d7d74; }
+.legacy-surface .text-teal-300 { color: #0d7d74; }
+.legacy-surface .text-rose-200 { color: #b91c1c; }
+.legacy-surface .text-rose-300 { color: #c63636; }
+.legacy-surface .text-emerald-200 { color: #047857; }
+.legacy-surface .text-emerald-300 { color: #047857; }
+
+/* the glossy Duolingo progress bar sheen */
+.prime-progress-fill {
+  position: relative;
+  overflow: hidden;
+}
+.prime-progress-fill::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.34),
+    rgba(255, 255, 255, 0) 45%,
+    rgba(0, 0, 0, 0.10)
+  );
+  pointer-events: none;
+}
+
+/* bottom tab bar respects the iPhone home indicator */
+.prime-tabbar {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* soft entrance for facades — reduce-aware authors guard usage */
+@keyframes prime-rise {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.prime-rise { animation: prime-rise 0.35s cubic-bezier(0.22, 1, 0.36, 1) both; }
+@media (prefers-reduced-motion: reduce) {
+  .prime-rise { animation: none; }
+}
+
+
+/* ─── R58 · FLOW — the motion round: same content, more life ────────────────
+   "Continue to build, don't add clutter — make the whole more flowy and
+   more animations." Zero new visible characters: every rule here is pure
+   motion on existing surfaces.
+
+   1) .prime-rise becomes a STAGGERED cascade — direct children rise in
+      sequence (60ms steps, 8 slots) instead of the whole page appearing
+      at once. Facades remount per tab switch, so the cascade replays on
+      every visit — content flows in.
+   2) .prime-flame — the streak flame breathes while a streak is hot.
+   3) .prime-progress-fill::before — a one-shot diagonal shine sweeps the
+      bar once after it fills (mount-only, single iteration).
+   4) .prime-pop — quiet keyframe pop for checkmarks settling into place.
+   5) .prime-tab-bounce — the TabBar icon activation bounce. Deliberately
+      PURE CSS (never a framer-motion keyed remount): a remounting motion
+      span inside the TabBar during the same commit as the page-level
+      AnimatePresence child swap froze the entering view at opacity 0
+      (found live during R58 E2E; the legacy nav's no-remount discipline
+      is the law for anything that re-renders on tab change).
+
+   Merge & hide: nothing above deletes any rule — earlier eras stay. */
+
+.prime-rise { animation: none; } /* root no longer fades — children carry it */
+.prime-rise > * {
+  animation: prime-rise 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(0.02s + (var(--i, 0) * 0.06s));
+}
+/* R60 — scroll-reveal holders opt OUT of the mount cascade: their entrance
+   is owned by <Reveal> (framer whileInView), so the CSS mount animation's
+   forwards-fill must not pin them visible before the reader arrives. */
+.prime-rise > .prime-reveal { animation: none; }
+/* explicit slots — more predictable than nth-child once wrappers vary */
+.prime-rise > *:nth-child(1) { --i: 0; }
+.prime-rise > *:nth-child(2) { --i: 1; }
+.prime-rise > *:nth-child(3) { --i: 2; }
+.prime-rise > *:nth-child(4) { --i: 3; }
+.prime-rise > *:nth-child(5) { --i: 4; }
+.prime-rise > *:nth-child(6) { --i: 5; }
+.prime-rise > *:nth-child(7) { --i: 6; }
+.prime-rise > *:nth-child(n+8) { --i: 7; }
+
+/* the hot streak flame — gentle scale breathe, 2.6s period */
+@keyframes prime-flame {
+  0%, 100% { transform: scale(1) rotate(-2deg); }
+  50% { transform: scale(1.14) rotate(2deg); }
+}
+.prime-flame { animation: prime-flame 2.6s ease-in-out infinite; transform-origin: 50% 80%; }
+
+/* one-shot shine sweep across the filled portion of a progress bar */
+@keyframes prime-bar-shine {
+  from { transform: translateX(-160%) skewX(-18deg); }
+  to { transform: translateX(340%) skewX(-18deg); }
+}
+.prime-progress-fill::before {
+  content: "";
+  position: absolute;
+  top: 0; bottom: 0; left: -35%;
+  width: 35%;
+  border-radius: inherit;
+  background: linear-gradient(100deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.55) 50%, rgba(255,255,255,0) 100%);
+  animation: prime-bar-shine 1.1s cubic-bezier(0.22, 1, 0.36, 1) 0.3s 1;
+  pointer-events: none;
+}
+
+/* quiet CSS pop for checkmarks settling into place */
+@keyframes prime-pop {
+  0% { transform: scale(0.4); opacity: 0; }
+  70% { transform: scale(1.12); opacity: 1; }
+  100% { transform: scale(1); }
+}
+.prime-pop { animation: prime-pop 0.35s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+/* the TabBar icon activation bounce — gains the class on activation, so the
+   animation fires exactly once per tab switch, pure CSS, framer-free */
+@keyframes prime-tab-bounce {
+  0% { transform: scale(1); }
+  45% { transform: scale(1.22) rotate(-4deg); }
+  75% { transform: scale(0.98) rotate(2deg); }
+  100% { transform: scale(1); }
+}
+.prime-tab-bounce { animation: prime-tab-bounce 0.36s cubic-bezier(0.22, 1, 0.36, 1) 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .prime-rise > * { animation: none; }
+  .prime-flame { animation: none; }
+  .prime-progress-fill::before { animation: none; display: none; }
+  .prime-pop { animation: none; }
+  .prime-tab-bounce { animation: none; }
+}
+
+/* ─── R59 · POLISH — world-class depth, ambience & shine ────────────────────
+   "Find the best websites and add their style without changing the current
+   essence of the project." Every borrowed idiom, mapped to its source:
+
+   - Stripe / Linear ambient wash — ultra-faint tri-tone radial gradients on
+     a viewport-fixed layer (body::before, z-index -1). 3–5.5% opacity
+     green/teal/gold light bleeding from the top; the canvas still reads
+     white, cards still read white, ink still reads ink. Atmosphere, not
+     content — zero new visible characters.
+   - Linear elevation — .prime-card: two-layer ambient shadow (1px contact
+     + 20px spread at −8px offset) on every kit Card. Flat borders gain
+     depth; the 2px #e5e5e5 border (the essence) stays.
+   - Vercel shine — .prime-btn-shine: a diagonal sheen sweeps across solid
+     BigButtons on hover (transition-driven, one sweep per hover-in).
+   - iOS dock — .prime-tabbar becomes frosted glass (white 88% + 14px blur
+     + 1.5× saturate); the wash glows through it exactly like an iOS 17
+     tab bar over wallpaper.
+   - Stripe wordmark — .prime-wordmark: ink-to-green gradient clip text
+     (guarded by @supports; plain ink everywhere else).
+   - Apple Fitness glow tell — .prime-bar-hot: a green ProgressBar ≥90%
+     breathes a soft aura ("you're close"). .prime-flame gains a warm
+     drop-shadow while a streak is hot.
+   - The flourish — .prime-flourish: a 56×5px tri-tone underline that
+     sweeps wide beneath the hero headings on mount.
+   - .prime-shimmer — skeletons sweep diagonally (Vercel/Linear skeleton
+     idiom) instead of the flat opacity pulse.
+   - .prime-topbar — the sticky header earns a soft shadow once the page
+     scrolls past 8px (the iOS large-title collapse idiom).
+
+   All merge & hide — nothing above deletes or overrides an earlier rule's
+   motion; every animation is reduce-guarded at the bottom of the section. */
+
+/* the ambient canvas — three faint lights from the top, fixed to the
+   viewport, painted above body's white but below all content (the page
+   root div drops its bg-white so the wash can show through).
+   R67 · VIBRANCY — grade tuned in place (values only): green radial
+   8.5%→10.5%, halo 5.5%→7%, teal 6%→7.5%, gold 5%→6.5%, plus a bottom
+   teal counter-bloom so the page foot isn't dead white. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(88, 204, 2, 0.07), rgba(88, 204, 2, 0) 15%),
+    radial-gradient(60rem 34rem at 50% -12rem, rgba(88, 204, 2, 0.105), transparent 64%),
+    radial-gradient(46rem 28rem at 110% 2%, rgba(15, 175, 154, 0.075), transparent 60%),
+    radial-gradient(40rem 24rem at -10% 14%, rgba(255, 200, 0, 0.065), transparent 56%),
+    radial-gradient(50rem 30rem at 50% 115%, rgba(15, 175, 154, 0.05), transparent 60%);
+}
+
+/* Linear elevation — every kit Card earns ambient depth. R59b: directional
+   (top-lit) drop + a 1px rim highlight where the light grazes the top edge */
+.prime-card {
+  box-shadow:
+    0 1px 2px rgba(60, 60, 60, 0.07),
+    0 10px 24px -12px rgba(60, 60, 60, 0.13),
+    inset 0 1px 0 rgba(255, 255, 255, 0.85);
+}
+
+/* Vercel shine — one diagonal sheen sweep per hover on solid buttons */
+.prime-btn-shine {
+  position: relative;
+  overflow: hidden;
+}
+.prime-btn-shine::after {
+  content: "";
+  position: absolute;
+  top: -20%;
+  bottom: -20%;
+  left: -55%;
+  width: 36%;
+  transform: skewX(-18deg);
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.38) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transition: left 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+.prime-btn-shine:hover::after,
+.prime-btn-shine:focus-visible::after {
+  left: 125%;
+}
+
+/* Stripe wordmark — ink flowing into green, clip-text guarded */
+.prime-wordmark { color: #3c3c3c; }
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .prime-wordmark {
+    background: linear-gradient(94deg, #3c3c3c 18%, #3c3c3c 52%, #46a302 94%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+/* the iOS dock — frosted glass the ambient wash glows through */
+.prime-tabbar {
+  background: rgba(255, 255, 255, 0.88);
+  -webkit-backdrop-filter: blur(14px) saturate(1.5);
+  backdrop-filter: blur(14px) saturate(1.5);
+}
+
+/* the hero flourish — a tri-tone underline that sweeps wide on mount */
+@keyframes prime-flourish {
+  from { transform: scaleX(0.12); opacity: 0; }
+  55% { opacity: 1; }
+  to { transform: scaleX(1); opacity: 1; }
+}
+.prime-flourish {
+  display: block;
+  width: 56px;
+  height: 5px;
+  margin-top: 0.4rem;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #58cc02, #0faf9a 55%, #ffc800);
+  transform-origin: left center;
+  animation: prime-flourish 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.08s both;
+}
+
+/* the skeleton sweep — diagonal light instead of a flat pulse */
+@keyframes prime-shimmer {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
+}
+.prime-shimmer {
+  background: linear-gradient(90deg, #f2f2ee 40%, #fafaf6 50%, #f2f2ee 60%);
+  background-size: 200% 100%;
+  animation: prime-shimmer 1.5s linear infinite;
+}
+
+/* Apple Fitness glow tell — a green bar ≥90% breathes its aura */
+@keyframes prime-bar-hot {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(88, 204, 2, 0); }
+  50% { box-shadow: 0 0 10px 1px rgba(88, 204, 2, 0.38); }
+}
+.prime-bar-hot { animation: prime-bar-hot 2.2s ease-in-out infinite; }
+
+/* the hot streak flame gains a warm ember glow (R58's breathe keeps animating) */
+.prime-flame {
+  filter: drop-shadow(0 0 5px rgba(255, 150, 0, 0.55));
+}
+
+/* the sticky header earns elevation once the page scrolls */
+.prime-topbar {
+  transition: box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.prime-topbar-scrolled {
+  box-shadow: 0 6px 20px -8px rgba(60, 60, 60, 0.14);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .prime-flourish { animation: none; }
+  .prime-shimmer { animation: none; background: #f2f2ee; }
+  .prime-bar-hot { animation: none; }
+  .prime-btn-shine::after { display: none; }
+  .prime-flame { filter: none; }
+}
+
+/* ─── R67 · VIBRANCY — the dullness lift (color/gradient/shadow only) ───────
+   User: "the whole look feels very dull"; VLM graded the authed home 3/10
+   ("sterile and flat… no depth, no texture, no visual excitement").
+   This section adds life with ZERO new visible characters (density
+   doctrine) and zero deletions — the R59 wash VALUES were tuned in place
+   above; everything new lives here:
+
+   1) body::after — the slow aurora drift: a second viewport-fixed layer of
+      three ultra-soft blobs (green 3.5% / gold 2.5% / teal 3%, positioned
+      OFF the body::before lights so the canvas gains mid- and lower-page
+      color it never had) breathing across the canvas on a 90s ease-in-out
+      alternate — ±3% x / ±2% y translate3d plus a 0.85↔1 opacity pulse.
+      Never above ~4% alpha anywhere: ambience, never content.
+   2) .prime-card-lift — the opt-in Card hover: a −2px rise into a deepened
+      prime-card shadow (inset rim kept, spread raised to 14px/0.2). Cards
+      opt in via className; the kit Card base stays untouched by design.
+   3) StatTile per-tone tinted backdrops (TONE_BG) and the ProgressBar
+      green gradient fill live in kit.tsx as Tailwind maps — ONE way, no
+      CSS twin (this note is the guardrail against a second path).
+
+   Everything animated here is reduce-guarded at the bottom of the
+   section. */
+
+/* the aurora — a second, drifting set of lights, offset from body::before */
+@keyframes prime-aurora {
+  from { transform: translate3d(-3%, -2%, 0); opacity: 0.85; }
+  to { transform: translate3d(3%, 2%, 0); opacity: 1; }
+}
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(44rem 30rem at 26% 36%, rgba(88, 204, 2, 0.035), transparent 62%),
+    radial-gradient(40rem 26rem at 76% 22%, rgba(255, 200, 0, 0.025), transparent 58%),
+    radial-gradient(46rem 30rem at 50% 68%, rgba(15, 175, 154, 0.03), transparent 60%);
+  animation: prime-aurora 90s ease-in-out infinite alternate;
+}
+
+/* the opt-in Card hover — a quiet −2px lift into deeper ambient depth
+   (the .prime-card two-layer shadow, spread raised; rim kept) */
+.prime-card-lift {
+  transition:
+    transform 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.prime-card-lift:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 1px 2px rgba(60, 60, 60, 0.07),
+    0 14px 32px -14px rgba(60, 60, 60, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.85);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::after { animation: none; }
+  .prime-card-lift { transition: none; }
+  .prime-card-lift:hover { transform: none; }
+}

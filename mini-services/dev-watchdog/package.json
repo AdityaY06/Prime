@@ -1,0 +1,9 @@
+{
+  "name": "dev-watchdog",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Self-healing guard for the PRIME dev server on the 4GB/no-swap sandbox (kernel OOM-kills next-server without warning — R36 evidence).",
+  "scripts": {
+    "dev": "bun --hot index.ts"
+  }
+}
